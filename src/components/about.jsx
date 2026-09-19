@@ -59,7 +59,7 @@ export default function AboutSection() {
           <div className="about-copy">
 
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/30">
-              Why UrbanQuest
+              Why Po Get It
             </p>
 
 
@@ -90,7 +90,7 @@ export default function AboutSection() {
                 text-white/45
               "
             >
-              UrbanQuest turns ordinary surroundings into
+              Po Get It turns ordinary surroundings into
               opportunities for exploration. Open the app,
               get a simple quest, and turn a few minutes
               into something worth remembering.
@@ -269,7 +269,7 @@ export default function AboutSection() {
                   <div className="px-5 pb-5 pt-6">
 
                     <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-black/35">
-                      UrbanQuest
+                      Po Get It
                     </p>
 
                     <h3 className="mt-2 text-[25px] font-semibold leading-[0.95] tracking-[-0.05em]">

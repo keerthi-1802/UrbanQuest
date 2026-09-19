@@ -145,7 +145,7 @@ export default function ProblemSection() {
                 <span className="h-px w-8 bg-neutral-400" />
 
                 <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-500">
-                  UrbanQuest
+                  Po Get It
                 </p>
               </div>
 

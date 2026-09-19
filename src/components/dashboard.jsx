@@ -40,7 +40,7 @@ export default function LifeDashboard() {
           </div>
 
           <p className="max-w-lg text-base leading-7 text-black/55 lg:ml-auto lg:text-lg">
-            UrbanQuest turns the little moments into something you can see.
+            Po Get It turns the little moments into something you can see.
             Over time, your dashboard becomes a record of the places you went,
             things you did, and memories you made.
           </p>

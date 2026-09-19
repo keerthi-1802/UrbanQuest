@@ -31,7 +31,7 @@ const Hero = () => {
           >
 
             <span className="text-xl font-bold tracking-tight">
-              UrbanQuest
+              Po Get It
             </span>
           </a>
 

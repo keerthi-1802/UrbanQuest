@@ -77,7 +77,7 @@ export default function AlphaLaunch() {
           </div>
 
           <p className="max-w-sm text-sm leading-6 text-black/45 sm:pb-1">
-            UrbanQuest starts here. Join the first wave of explorers and help
+            Po Get It starts here. Join the first wave of explorers and help
             shape what we build next.
           </p>
         </div>
@@ -125,7 +125,7 @@ export default function AlphaLaunch() {
                 </h3>
 
                 <p className="mt-5 max-w-md text-sm leading-6 text-white/55">
-                  Discover UrbanQuest before everyone else and help us shape
+                  Discover Po Get It before everyone else and help us shape
                   the experience.
                 </p>
               </div>
@@ -151,7 +151,7 @@ export default function AlphaLaunch() {
 
                     <p className="mt-4 max-w-md text-sm leading-6 text-white/40">
                       Leave your details and we'll let you know when the
-                      UrbanQuest alpha opens.
+                      Po Get It alpha opens.
                     </p>
                   </div>
 
@@ -267,7 +267,7 @@ export default function AlphaLaunch() {
                   </form>
 
                   <p className="mt-5 text-center text-[10px] leading-5 text-white/20">
-                    No spam. Just an invite when UrbanQuest is ready.
+                    No spam. Just an invite when Po Get It is ready.
                   </p>
                 </>
               ) : (
@@ -291,7 +291,7 @@ export default function AlphaLaunch() {
                   </h3>
 
                   <p className="mt-5 max-w-sm text-sm leading-6 text-white/40">
-                    Thanks for joining the UrbanQuest alpha. We'll contact you
+                    Thanks for joining the Po Get It alpha. We'll contact you
                     when we're ready to let you in.
                   </p>
                 </div>
@@ -305,7 +305,7 @@ export default function AlphaLaunch() {
         <div className="mt-7 flex flex-col gap-4 border-t border-black/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
 
           <p className="text-sm text-black/40">
-            Early explorers won't just use UrbanQuest — they'll help define it.
+            Early explorers won't just use Po Get It — they'll help define it.
           </p>
 
           <div className="flex items-center gap-2 text-xs font-medium text-black/40">
