@@ -1,3 +1,5 @@
+import Offer from "../assets/offer.png"
+
 export default function ProblemSection() {
   const problems = [
     {
@@ -53,7 +55,7 @@ export default function ProblemSection() {
         <div className="relative mt-20 overflow-hidden rounded-[2rem] md:mt-28 md:rounded-[2.5rem]">
           <div className="h-[430px] md:h-[600px]">
             <img
-              src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1800&q=85"
+              src={Offer}
               alt="Friends exploring the city together"
               className="h-full w-full object-cover"
             />

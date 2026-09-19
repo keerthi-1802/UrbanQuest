@@ -20,49 +20,7 @@ const Hero = () => {
         to-black/80"
       />
 
-      {/* Navigation */}
-      <header className="absolute left-0 right-0 top-0 z-20">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
-
-          {/* Logo */}
-          <a
-            href="/"
-            className="flex items-center gap-3"
-          >
-
-            <span className="text-xl font-bold tracking-tight">
-              Po Get It
-            </span>
-          </a>
-
-          {/* Alpha */}
-
-          {/* CTA */}
-          <div className="mt-10 flex justify-center">
-            <a
-              href="#alpha"
-              className="group inline-flex items-center justify-center rounded-full border border-white/15 bg-[#060606] px-8 py-4 transition-colors duration-200 hover:bg-[#111111]"
-            >
-              <span className="flex items-center gap-4">
-                <span className="flex flex-col">
-                  <span className="text-base font-semibold leading-tight text-white">
-                    Join Alpha
-                  </span>
-
-                  <span className="mt-0.5 text-[11px] font-medium leading-tight text-white/50">
-                    Free early access
-                  </span>
-                </span>
-
-                <span className="text-lg font-medium text-white transition-transform duration-200 group-hover:translate-x-0.5">
-                  →
-                </span>
-              </span>
-            </a>
-          </div>
-
-        </div>
-      </header>
+    
 
 
       {/* HERO CONTENT */}

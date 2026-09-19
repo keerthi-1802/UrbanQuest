@@ -7,18 +7,22 @@ import QuestWorlds from './components/questWorld'
 import LifeDashboard from './components/dashboard'
 import AlphaLaunch from './components/alphaLaunch'
 import ScrollToTop from './components/ScrollToTop'
+import Navbar from './components/navbar'
+
+
 
 function App() {
   return (
     <div>
       <ScrollToTop />
-      <Hero/>
-      <AboutSection/>
-      <ProblemSection/>
-      <QuestWorlds/>
-      <DoSomethingNow/>
-      <LifeDashboard/>
-      <AlphaLaunch/>
+      <Navbar />
+      <Hero />
+      <AboutSection />
+      <ProblemSection />
+      <QuestWorlds />
+      <DoSomethingNow />
+      <LifeDashboard />
+      <AlphaLaunch />
     </div>
   )
 }
