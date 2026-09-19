@@ -10,7 +10,7 @@ const Hero = () => {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/10" />
 
       {/* Gradient */}
       <div
@@ -29,21 +29,37 @@ const Hero = () => {
             href="/"
             className="flex items-center gap-3"
           >
-            
+
             <span className="text-xl font-bold tracking-tight">
               UrbanQuest
             </span>
           </a>
 
           {/* Alpha */}
-          <a
-            className="rounded-full border border-white/30
-            px-5 py-2.5 text-sm font-medium
-            transition hover:bg-white hover:text-black"
-            href="#alpha"
-          >
-            Join Alpha
-          </a>
+
+          {/* CTA */}
+          <div className="mt-10 flex justify-center">
+            <a
+              href="#alpha"
+              className="group inline-flex items-center justify-center rounded-full border border-white/15 bg-[#060606] px-8 py-4 transition-colors duration-200 hover:bg-[#111111]"
+            >
+              <span className="flex items-center gap-4">
+                <span className="flex flex-col">
+                  <span className="text-base font-semibold leading-tight text-white">
+                    Join Alpha
+                  </span>
+
+                  <span className="mt-0.5 text-[11px] font-medium leading-tight text-white/50">
+                    Free early access
+                  </span>
+                </span>
+
+                <span className="text-lg font-medium text-white transition-transform duration-200 group-hover:translate-x-0.5">
+                  →
+                </span>
+              </span>
+            </a>
+          </div>
 
         </div>
       </header>
@@ -63,7 +79,7 @@ const Hero = () => {
             text-xs font-medium uppercase
             tracking-[0.18em] text-white/60"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
+            <span />
 
             Starting in Coimbatore
           </div>
@@ -95,8 +111,7 @@ const Hero = () => {
             text-white/70
             sm:text-lg"
           >
-            Turn digital prompts into worthwhile offline actions.
-            Move, explore, notice and build a life worth remembering.
+            Get off your screen into the real world. Discover new places, try new things, and turn everyday moments into experiences worth remembering.
           </p>
 
 
@@ -112,7 +127,7 @@ const Hero = () => {
               hover:-translate-y-1
               hover:bg-neutral-100"
             >
-              Start Your First Quest
+              Start Your Journey
 
               <span
                 className="transition-transform
@@ -123,9 +138,7 @@ const Hero = () => {
               </span>
             </button>
 
-            <p className="mt-4 text-xs text-white/40">
-              Free to join · Early access
-            </p>
+           
 
           </div>
 

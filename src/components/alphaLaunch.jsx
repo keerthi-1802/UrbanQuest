@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Covai from "../assets/Covai.png"
 
 export default function AlphaLaunch() {
   const [loading, setLoading] = useState(false);
@@ -90,7 +91,7 @@ export default function AlphaLaunch() {
             <div className="relative min-h-[480px] overflow-hidden sm:min-h-[560px] lg:min-h-[600px]">
 
               <img
-                src="https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1600&q=85"
+                src={Covai}
                 alt="Coimbatore city"
                 className="absolute inset-0 h-full w-full object-cover"
               />
@@ -174,21 +175,55 @@ export default function AlphaLaunch() {
                       />
                     </div>
 
-                    {/* AGE */}
+                    {/* AGE RANGE */}
                     <div>
                       <label className="mb-2 block text-[10px] font-medium uppercase tracking-[0.16em] text-white/30">
-                        Age
+                        Age Category
                       </label>
 
-                      <input
-                        required
-                        name="age"
-                        type="number"
-                        min="13"
-                        max="100"
-                        placeholder="Your age"
-                        className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-[#d9ff55]/60"
-                      />
+                      <div className="relative">
+                        <select
+                          required
+                          name="age"
+                          defaultValue=""
+                          className="w-full appearance-none rounded-xl border border-white/10 bg-white/[0.06] px-4 py-4 pr-12 text-sm text-white outline-none transition duration-300 focus:border-[#d9ff55]/60 focus:bg-white/[0.08]"
+                        >
+                          <option value="" disabled className="bg-[#111] text-white/60">
+                            Select age range
+                          </option>
+                          <option value="Below 18" className="bg-[#111] text-white">
+                            Below 18
+                          </option>
+                          <option value="18–20" className="bg-[#111] text-white">
+                            18–20
+                          </option>
+                          <option value="20–35" className="bg-[#111] text-white">
+                            20–35
+                          </option>
+                          <option value="35–40" className="bg-[#111] text-white">
+                            35–40
+                          </option>
+                          <option value="40+" className="bg-[#111] text-white">
+                            40+
+                          </option>
+                        </select>
+
+                        {/* Custom Chevron */}
+                        <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-white/40">
+                          <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
 
                     {/* EMAIL */}
