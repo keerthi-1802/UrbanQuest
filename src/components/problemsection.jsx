@@ -74,8 +74,8 @@ export default function ProblemSection() {
           </div>
 
           {/* Image text */}
-          <div className="absolute inset-0 flex items-center justify-center px-6 text-center">
-            <div>
+          <div className="absolute inset-0 flex items-end justify-center px-6 pb-24 text-center">
+            <div className="translate-y-12 md:translate-y-16">
               <p className="mb-5 text-[11px] uppercase tracking-[0.25em] text-white/60">
                 It doesn't have to be this way
               </p>
@@ -140,7 +140,7 @@ export default function ProblemSection() {
         {/* Transition */}
         <div className="mt-24 border-t border-neutral-300 pt-12 md:mt-32 md:pt-16">
           <div className="grid gap-10 md:grid-cols-[0.7fr_1.3fr] md:items-end">
-            
+
             {/* Small label */}
             <div>
               <div className="flex items-center gap-3">

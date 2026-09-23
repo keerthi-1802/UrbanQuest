@@ -17,8 +17,8 @@ function App() {
       <ScrollToTop />
       <Navbar />
       <Hero />
-      <AboutSection />
       <ProblemSection />
+      <AboutSection />
       <QuestWorlds />
       <DoSomethingNow />
       <LifeDashboard />

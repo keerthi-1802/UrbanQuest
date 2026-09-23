@@ -1,567 +1,803 @@
-
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import step1 from "../assets/step1.jpeg";
+import step2 from "../assets/step2.jpeg";
+import quest from "../assets/Quest.jpeg";
+import Explore from "../assets/explore.jpeg";
+import Journey from "../assets/Journey.jpeg";
+
 gsap.registerPlugin(ScrollTrigger);
+
+const features = [
+  {
+    number: "01",
+    eyebrow: "Discover",
+    title: "Start with what is around you.",
+    description:
+      "Your surroundings become part of the experience. Discover something interesting without having to plan your next move.",
+    image: step1,
+  },
+  {
+    number: "02",
+    eyebrow: "Explore",
+    title: "Turn curiosity into a simple action.",
+    description:
+      "Get a clear prompt that gives you a reason to step outside, look closer and explore what is already around you.",
+    image: step2,
+  },
+  {
+    number: "03",
+    eyebrow: "Quest",
+    title: "Follow the quest. Forget the planning.",
+    description:
+      "No complicated itineraries or endless scrolling. Just one simple quest designed to get you moving.",
+    image: quest,
+  },
+  {
+    number: "04",
+    eyebrow: "Experience",
+    title: "Make ordinary moments count.",
+    description:
+      "A short walk, a new place or a small discovery can become something worth remembering.",
+    image: Explore,
+  },
+  {
+    number: "05",
+    eyebrow: "Journey",
+    title: "Build your story, one quest at a time.",
+    description:
+      "Small experiences gradually become your journey — a collection of places, moments and memories.",
+    image: Journey,
+  },
+];
 
 export default function AboutSection() {
   const sectionRef = useRef(null);
+  const stageRef = useRef(null);
+
+  const imageRefs = useRef([]);
+  const contentRefs = useRef([]);
+
+  const activeRef = useRef(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const stage = stageRef.current;
+
+    if (!section || !stage) return;
+
     const ctx = gsap.context(() => {
-      gsap.from(".about-copy", {
-        x: -50,
-        opacity: 0,
-        duration: 0.9,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-          once: true,
+      const images = imageRefs.current.filter(Boolean);
+      const contents = contentRefs.current.filter(Boolean);
+
+      if (!images.length || !contents.length) return;
+
+      /*
+       * ---------------------------------------------------------
+       * INITIAL STATE
+       * ---------------------------------------------------------
+       */
+
+      gsap.set(images, {
+        autoAlpha: 0,
+        scale: 1.035,
+        y: 20,
+        force3D: true,
+      });
+
+      gsap.set(contents, {
+        autoAlpha: 0,
+        y: 35,
+        force3D: true,
+      });
+
+      // First screen visible immediately
+      gsap.set(images[0], {
+        autoAlpha: 1,
+        scale: 1,
+        y: 0,
+      });
+
+      gsap.set(contents[0], {
+        autoAlpha: 1,
+        y: 0,
+      });
+
+      /*
+       * ---------------------------------------------------------
+       * MASTER TIMELINE
+       *
+       * 0 = Step 1
+       * 1 = Step 2
+       * 2 = Step 3
+       * 3 = Step 4
+       * 4 = Step 5
+       * ---------------------------------------------------------
+       */
+
+      const timeline = gsap.timeline({
+        defaults: {
+          ease: "power3.inOut",
         },
       });
 
-      gsap.from(".phone-screen", {
-        y: 80,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-          once: true,
+      const transitionDuration = 0.32;
+
+      for (let index = 1; index < features.length; index++) {
+        const previous = index - 1;
+        const current = index;
+
+        timeline
+          // Previous image leaves
+          .to(
+            images[previous],
+            {
+              autoAlpha: 0,
+              scale: 0.965,
+              y: -18,
+              duration: transitionDuration,
+            },
+            index
+          )
+
+          // Current image enters
+          .fromTo(
+            images[current],
+            {
+              autoAlpha: 0,
+              scale: 1.035,
+              y: 22,
+            },
+            {
+              autoAlpha: 1,
+              scale: 1,
+              y: 0,
+              duration: transitionDuration,
+            },
+            index
+          )
+
+          // Previous content leaves
+          .to(
+            contents[previous],
+            {
+              autoAlpha: 0,
+              y: -28,
+              duration: transitionDuration,
+            },
+            index
+          )
+
+          // Current content enters
+          .fromTo(
+            contents[current],
+            {
+              autoAlpha: 0,
+              y: 30,
+            },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: transitionDuration,
+            },
+            index + 0.04
+          );
+      }
+      ScrollTrigger.create({
+        trigger: stage,
+        start: "top top",
+        end: "+=200%",
+
+        pin: true,
+        pinSpacing: true,
+        scrub: 0.8,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+
+        animation: timeline,
+
+        // ❌ Remove snap
+        onUpdate: (self) => {
+          const index = Math.round(self.progress * (features.length - 1));
+
+          if (index !== activeRef.current) {
+            activeRef.current = index;
+            setActiveIndex(index);
+          }
         },
+      });
+      /*
+       * Refresh after all images/components have been rendered.
+       */
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
       });
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="overflow-hidden bg-[#000000] px-6 py-28 text-white sm:px-10 lg:px-16"
+      className="relative bg-[#06080C] text-white"
     >
-      <div className="mx-auto max-w-7xl">
+      {/* ======================================================
+          BACKGROUND
+      ======================================================= */}
 
-      
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="
+            absolute
+            left-[5%]
+            top-[10%]
+            h-[500px]
+            w-[500px]
+            rounded-full
+            bg-blue-500/[0.055]
+            blur-[150px]
+          "
+        />
 
+        <div
+          className="
+            absolute
+            right-[0%]
+            top-[45%]
+            h-[650px]
+            w-[650px]
+            rounded-full
+            bg-cyan-400/[0.035]
+            blur-[170px]
+          "
+        />
 
-        <div className="grid items-center gap-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: `
+              linear-gradient(
+                rgba(255,255,255,0.5) 1px,
+                transparent 1px
+              ),
+              linear-gradient(
+                90deg,
+                rgba(255,255,255,0.5) 1px,
+                transparent 1px
+              )
+            `,
+            backgroundSize: "80px 80px",
+          }}
+        />
+      </div>
 
+      {/* ======================================================
+          INTRO
+      ======================================================= */}
 
-          {/* =====================================================
-              LEFT — ABOUT
-          ====================================================== */}
+      <div className="relative mx-auto flex min-h-[75vh] max-w-7xl items-center px-6 py-24 lg:px-12">
+        <div className="max-w-4xl">
+          <div className="mb-7 flex items-center gap-3">
+            <span className="h-px w-10 bg-white/40" />
 
-          <div className="about-copy">
-
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/30">
+            <span className="text-xs font-medium uppercase tracking-[0.28em] text-white/45">
               Why Po Get It
-            </p>
-
-
-            <h2
-              className="
-                mt-5
-                max-w-xl
-                text-5xl
-                font-semibold
-                leading-[0.92]
-                tracking-[-0.055em]
-                sm:text-6xl
-              "
-            >
-              Your next
-              <span className="text-white/30">
-                {" "}experience is closer than you think.
-              </span>
-            </h2>
-
-
-            <p
-              className="
-                mt-7
-                max-w-md
-                text-sm
-                leading-7
-                text-white/45
-              "
-            >
-              Po Get It turns ordinary surroundings into
-              opportunities for exploration. Open the app,
-              get a simple quest, and turn a few minutes
-              into something worth remembering.
-            </p>
-
-
-            {/* Points */}
-
-            <div className="mt-12 space-y-6">
-
-              <div className="flex gap-4">
-
-                <span
-                  className="
-                    flex
-                    h-8
-                    w-8
-                    shrink-0
-                    items-center
-                    justify-center
-                    border
-                    border-white/15
-                    text-[10px]
-                  "
-                >
-                  01
-                </span>
-
-                <div>
-                  <p className="text-sm font-medium">
-                    Discover something nearby
-                  </p>
-
-                  <p className="mt-1 text-xs leading-5 text-white/30">
-                    Your surroundings become part of the experience.
-                  </p>
-                </div>
-
-              </div>
-
-
-              <div className="flex gap-4">
-
-                <span
-                  className="
-                    flex
-                    h-8
-                    w-8
-                    shrink-0
-                    items-center
-                    justify-center
-                    border
-                    border-white/15
-                    text-[10px]
-                  "
-                >
-                  02
-                </span>
-
-                <div>
-                  <p className="text-sm font-medium">
-                    Follow a simple prompt
-                  </p>
-
-                  <p className="mt-1 text-xs leading-5 text-white/30">
-                    No planning. No endless scrolling. Just go.
-                  </p>
-                </div>
-
-              </div>
-
-
-              <div className="flex gap-4">
-
-                <span
-                  className="
-                    flex
-                    h-8
-                    w-8
-                    shrink-0
-                    items-center
-                    justify-center
-                    border
-                    border-white/15
-                    text-[10px]
-                  "
-                >
-                  03
-                </span>
-
-                <div>
-                  <p className="text-sm font-medium">
-                    Make it a memory
-                  </p>
-
-                  <p className="mt-1 text-xs leading-5 text-white/30">
-                    Small moments slowly become your story.
-                  </p>
-                </div>
-
-              </div>
-
-            </div>
-
+            </span>
           </div>
 
+          <h2
+            className="
+              text-balance
+              text-5xl
+              font-medium
+              leading-[0.98]
+              tracking-[-0.05em]
+              sm:text-6xl
+              lg:text-8xl
+            "
+          >
+            Your next experience
+            <br />
+            is closer than
+            <br />
+            <span className="text-white/30">
+              you think.
+            </span>
+          </h2>
 
+          <p
+            className="
+              mt-8
+              max-w-xl
+              text-base
+              leading-7
+              text-white/50
+              sm:text-lg
+            "
+          >
+            Po Get It turns ordinary surroundings into opportunities
+            for exploration. Open the app, get a simple quest, and
+            turn a few minutes into something worth remembering.
+          </p>
+        </div>
+      </div>
 
-          {/* =====================================================
-              RIGHT — MOBILE APP JOURNEY
-          ====================================================== */}
+      {/* ======================================================
+          DESKTOP EXPERIENCE
+          
+          IMPORTANT:
+          This is 500vh.
+          One viewport = one feature.
+      ======================================================= */}
 
-          <div className="relative mx-auto h-[620px] w-full max-w-[620px]">
+      <div className="relative hidden lg:block">
+        <div
+          ref={stageRef}
+          className="
+            relative
+            flex
+            h-screen
+            w-full
+            items-center
+            overflow-hidden
+          "
+        >
+          {/* Main container */}
+          <div
+            className="
+              mx-auto
+              grid
+              w-full
+              max-w-7xl
+              grid-cols-[1fr_420px]
+              items-center
+              gap-24
+              px-12
+              xl:grid-cols-[1fr_460px]
+              xl:gap-32
+            "
+          >
+            {/* ==================================================
+                LEFT CONTENT
+            =================================================== */}
 
+            <div className="relative h-[400px]">
+              {features.map((feature, index) => (
+                <div
+                  key={feature.number}
+                  ref={(element) => {
+                    contentRefs.current[index] = element;
+                  }}
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    flex
+                    max-w-xl
+                    flex-col
+                    justify-center
+                  "
+                >
+                  {/* Number + Category */}
+                  <div className="mb-7 flex items-center gap-4">
+                    <span
+                      className="
+                        font-mono
+                        text-sm
+                        tracking-[0.18em]
+                        text-white/30
+                      "
+                    >
+                      {feature.number}
+                    </span>
 
-            {/* Decorative text */}
+                    <span className="h-px w-12 bg-white/15" />
 
-            <div className="absolute right-0 top-0 hidden lg:block">
-              <p className="text-[9px] uppercase tracking-[0.25em] text-white/20">
-                The journey
-              </p>
+                    <span
+                      className="
+                        text-xs
+                        font-medium
+                        uppercase
+                        tracking-[0.25em]
+                        text-white/40
+                      "
+                    >
+                      {feature.eyebrow}
+                    </span>
+                  </div>
+
+                  {/* Heading */}
+                  <h3
+                    className="
+                      max-w-xl
+                      text-5xl
+                      font-medium
+                      leading-[1.02]
+                      tracking-[-0.045em]
+                      xl:text-6xl
+                    "
+                  >
+                    {feature.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p
+                    className="
+                      mt-7
+                      max-w-lg
+                      text-base
+                      leading-7
+                      text-white/45
+                      xl:text-lg
+                    "
+                  >
+                    {feature.description}
+                  </p>
+
+                  {/* Progress indicators */}
+                  <div className="mt-10 flex items-center gap-2">
+                    {features.map((_, dotIndex) => (
+                      <span
+                        key={dotIndex}
+                        className={`
+                          h-1
+                          rounded-full
+                          transition-all
+                          duration-500
+                          ${dotIndex === index
+                            ? "w-10 bg-white"
+                            : "w-2 bg-white/20"
+                          }
+                        `}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
 
+            {/* ==================================================
+                PHONE
+            =================================================== */}
 
-            {/* ================= CENTER PHONE ================= */}
-
-            <div
-              className="
-                phone-screen
-                absolute
-                left-1/2
-                top-1/2
-                z-20
-                w-[220px]
-                -translate-x-1/2
-                -translate-y-1/2
-                sm:w-[240px]
-              "
-            >
-
+            <div className="flex items-center justify-center">
               <div
                 className="
-                  rounded-[34px]
-                  border
-                  border-white/15
-                  bg-[#111]
-                  p-2
-                  shadow-[0_35px_100px_rgba(0,0,0,0.7)]
+                  relative
+                  h-[680px]
+                  w-[340px]
+                  xl:h-[700px]
+                  xl:w-[350px]
                 "
               >
-
+                {/* Phone glow */}
                 <div
                   className="
-                    overflow-hidden
-                    rounded-[27px]
-                    bg-[#f3f0e9]
-                    text-black
+                    absolute
+                    left-1/2
+                    top-1/2
+                    h-[520px]
+                    w-[520px]
+                    -translate-x-1/2
+                    -translate-y-1/2
+                    rounded-full
+                    bg-blue-500/[0.07]
+                    blur-[110px]
+                  "
+                />
+
+                {/* Phone body */}
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    rounded-[48px]
+                    border
+                    border-white/[0.14]
+                    bg-[#111419]
+                    p-[7px]
+                    shadow-[0_35px_100px_rgba(0,0,0,0.6)]
                   "
                 >
+                  {/* Screen */}
+                  <div
+                    className="
+                      relative
+                      h-full
+                      w-full
+                      overflow-hidden
+                      rounded-[41px]
+                      bg-black
+                    "
+                  >
+                    {features.map((feature, index) => (
+                      <div
+                        key={feature.number}
+                        ref={(element) => {
+                          imageRefs.current[index] = element;
+                        }}
+                        className="
+                          absolute
+                          inset-0
+                          h-full
+                          w-full
+                          overflow-hidden
+                        "
+                      >
+                        <img
+                          src={feature.image}
+                          alt={feature.title}
+                          draggable="false"
+                          className="
+                            h-full
+                            w-full
+                            select-none
+                            object-cover
+                          "
+                        />
 
-                  {/* Status */}
-
-                  <div className="flex items-center justify-between px-5 pt-4 text-[8px] font-medium text-black/50">
-                    <span>9:41</span>
-
-                    <div className="flex gap-1">
-                      <span>●</span>
-                      <span>●</span>
-                      <span>▮</span>
-                    </div>
-                  </div>
-
-
-                  {/* Header */}
-
-                  <div className="px-5 pb-5 pt-6">
-
-                    <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-black/35">
-                      Po Get It
-                    </p>
-
-                    <h3 className="mt-2 text-[25px] font-semibold leading-[0.95] tracking-[-0.05em]">
-                      Find something
-                      <br />
-                      worth noticing.
-                    </h3>
-
-                  </div>
-
-
-                  {/* Quest Card */}
-
-                  <div className="px-4">
-
-                    <div className="rounded-[20px] bg-black p-5 text-white">
-
-                      <div className="flex items-center justify-between">
-
-                        <span className="text-[8px] uppercase tracking-[0.18em] text-white/40">
-                          Today's quest
-                        </span>
-
-                        <span className="text-[8px] text-white/35">
-                          07 min
-                        </span>
-
+                        {/* Subtle screen overlay */}
+                        <div
+                          className="
+                            pointer-events-none
+                            absolute
+                            inset-0
+                            bg-gradient-to-b
+                            from-black/[0.08]
+                            via-transparent
+                            to-black/[0.12]
+                          "
+                        />
                       </div>
-
-
-                      <p className="mt-8 text-[19px] font-medium leading-tight tracking-[-0.035em]">
-                        Walk somewhere
-                        you've never
-                        noticed before.
-                      </p>
-
-
-                      <div className="mt-7 flex items-center justify-between">
-
-                        <span className="text-[8px] text-white/35">
-                          Explore nearby
-                        </span>
-
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black">
-                          →
-                        </div>
-
-                      </div>
-
-                    </div>
-
+                    ))}
                   </div>
 
-
-                  {/* Bottom navigation */}
-
-                  <div className="mt-5 flex justify-around border-t border-black/10 px-3 py-4">
-
-                    <div className="text-center">
-                      <div className="text-xs">⌂</div>
-                      <p className="mt-1 text-[7px] text-black/40">
-                        Home
-                      </p>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="text-xs">✦</div>
-                      <p className="mt-1 text-[7px] text-black/40">
-                        Quests
-                      </p>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="text-xs">○</div>
-                      <p className="mt-1 text-[7px] text-black/40">
-                        Journey
-                      </p>
-                    </div>
-
-                  </div>
-
+                  {/* Dynamic Island */}
+                  <div
+                    className="
+                      absolute
+                      left-1/2
+                      top-[10px]
+                      h-[5px]
+                      w-20
+                      -translate-x-1/2
+                      rounded-full
+                      bg-black/90
+                    "
+                  />
                 </div>
 
+                {/* Glass reflection */}
+                <div
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-[48px]
+                    bg-gradient-to-br
+                    from-white/[0.07]
+                    via-transparent
+                    to-transparent
+                  "
+                />
               </div>
-
             </div>
+          </div>
 
+          {/* ==================================================
+              BOTTOM SCROLL INDICATOR
+          =================================================== */}
 
-
-            {/* ================= LEFT PHONE ================= */}
-
-            <div
+          <div
+            className="
+              absolute
+              bottom-10
+              left-1/2
+              flex
+              -translate-x-1/2
+              flex-col
+              items-center
+              gap-3
+            "
+          >
+            <span
               className="
-                phone-screen
-                absolute
-                left-[2%]
-                top-[17%]
-                z-10
-                hidden
-                w-[175px]
-                -rotate-[8deg]
-                opacity-70
-                sm:block
-                lg:w-[190px]
-              "
-            >
-
-              <div className="rounded-[30px] border border-white/10 bg-[#111] p-2 shadow-[0_30px_70px_rgba(0,0,0,0.5)]">
-
-                <div className="overflow-hidden rounded-[23px] bg-[#e9e5dc] text-black">
-
-                  <div className="px-4 pb-4 pt-5">
-
-                    <p className="text-[7px] uppercase tracking-[0.2em] text-black/35">
-                      Discover
-                    </p>
-
-                    <h3 className="mt-2 text-xl font-semibold leading-none tracking-[-0.05em]">
-                      What's
-                      <br />
-                      around you?
-                    </h3>
-
-                  </div>
-
-
-                  {/* Fake map */}
-
-                  <div className="relative mx-3 h-[230px] overflow-hidden rounded-[18px] bg-[#d4d0c7]">
-
-                    <div className="absolute left-[20%] top-[15%] h-20 w-32 rotate-12 border-b-2 border-black/10" />
-
-                    <div className="absolute left-[40%] top-[45%] h-32 w-2 rotate-[35deg] bg-black/10" />
-
-                    <div className="absolute left-[65%] top-[20%] h-3 w-3 rounded-full bg-black" />
-
-                    <div className="absolute left-[32%] top-[62%] h-3 w-3 rounded-full bg-black/40" />
-
-                    <div className="absolute left-[58%] top-[70%] h-3 w-3 rounded-full bg-black/30" />
-
-                  </div>
-
-
-                  <div className="px-4 py-5">
-
-                    <p className="text-[9px] font-medium">
-                      3 quests nearby
-                    </p>
-
-                    <p className="mt-1 text-[7px] text-black/40">
-                      Start exploring your surroundings.
-                    </p>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-
-            {/* ================= RIGHT PHONE ================= */}
-
-            <div
-              className="
-                phone-screen
-                absolute
-                right-[2%]
-                top-[32%]
-                z-10
-                hidden
-                w-[175px]
-                rotate-[8deg]
-                opacity-70
-                sm:block
-                lg:w-[190px]
-              "
-            >
-
-              <div className="rounded-[30px] border border-white/10 bg-[#111] p-2 shadow-[0_30px_70px_rgba(0,0,0,0.5)]">
-
-                <div className="overflow-hidden rounded-[23px] bg-white text-black">
-
-                  <div className="px-4 pb-4 pt-5">
-
-                    <p className="text-[7px] uppercase tracking-[0.2em] text-black/35">
-                      Completed
-                    </p>
-
-                    <h3 className="mt-2 text-xl font-semibold leading-none tracking-[-0.05em]">
-                      You made
-                      <br />
-                      it real.
-                    </h3>
-
-                  </div>
-
-
-                  {/* Memory */}
-
-                  <div className="mx-3 rounded-[18px] bg-black p-4 text-white">
-
-                    <div className="flex h-32 items-end rounded-xl bg-[#292929] p-3">
-
-                      <div>
-
-                        <p className="text-[7px] uppercase tracking-[0.15em] text-white/35">
-                          Quest 014
-                        </p>
-
-                        <p className="mt-1 text-sm font-medium">
-                          First light.
-                        </p>
-
-                      </div>
-
-                    </div>
-
-
-                    <div className="mt-4 flex items-center justify-between">
-
-                      <span className="text-[7px] text-white/40">
-                        Completed today
-                      </span>
-
-                      <span className="text-[10px]">
-                        ✓
-                      </span>
-
-                    </div>
-
-                  </div>
-
-
-                  <div className="px-4 py-5">
-
-                    <p className="text-[8px] text-black/40">
-                      Your journey is growing.
-                    </p>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-
-            {/* Decorative line */}
-
-            <div className="absolute bottom-5 left-1/2 hidden h-px w-[70%] -translate-x-1/2 bg-white/10 lg:block" />
-
-            <p
-              className="
-                absolute
-                bottom-0
-                left-1/2
-                -translate-x-1/2
-                whitespace-nowrap
                 text-[10px]
+                font-medium
                 uppercase
-                tracking-[0.22em]
-                text-white/50
+                tracking-[0.3em]
+                text-white/25
               "
             >
-              Discover → Experience → Remember
-            </p>
+              Scroll to explore
+            </span>
 
+            <div className="relative h-10 w-px overflow-hidden bg-white/10">
+              <div
+                className="
+                  absolute
+                  left-0
+                  top-0
+                  h-1/2
+                  w-full
+                  animate-pulse
+                  bg-white/50
+                "
+              />
+            </div>
           </div>
 
-        </div>
+          {/* ==================================================
+              CURRENT STEP
+          =================================================== */}
 
-
-        {/* Bottom statement */}
-
-        <div className="mt-24 border-t border-white/10 pt-6">
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-
-            <p className="text-[9px] uppercase tracking-[0.2em] text-white/25">
-              Less screen time. More life outside.
-            </p>
-
-           
+          <div
+            className="
+              absolute
+              bottom-10
+              right-12
+            "
+          >
+            <span
+              className="
+                font-mono
+                text-xs
+                tracking-[0.2em]
+                text-white/25
+              "
+            >
+              {String(activeIndex + 1).padStart(2, "0")}
+              {" / "}
+              {String(features.length).padStart(2, "0")}
+            </span>
           </div>
-
         </div>
+      </div>
 
+      {/* ======================================================
+          MOBILE
+          
+          Normal document scrolling.
+          No ScrollTrigger required.
+      ======================================================= */}
+
+      <div
+        className="
+          relative
+          block
+          px-6
+          pb-28
+          lg:hidden
+        "
+      >
+        <div className="space-y-32">
+          {features.map((feature) => (
+            <article key={feature.number}>
+              {/* Content */}
+              <div className="mb-10">
+                <div className="mb-5 flex items-center gap-3">
+                  <span
+                    className="
+                      font-mono
+                      text-xs
+                      tracking-[0.2em]
+                      text-white/30
+                    "
+                  >
+                    {feature.number}
+                  </span>
+
+                  <span className="h-px w-8 bg-white/15" />
+
+                  <span
+                    className="
+                      text-[10px]
+                      font-medium
+                      uppercase
+                      tracking-[0.25em]
+                      text-white/40
+                    "
+                  >
+                    {feature.eyebrow}
+                  </span>
+                </div>
+
+                <h3
+                  className="
+                    text-4xl
+                    font-medium
+                    leading-[1.02]
+                    tracking-[-0.04em]
+                  "
+                >
+                  {feature.title}
+                </h3>
+
+                <p
+                  className="
+                    mt-5
+                    text-base
+                    leading-7
+                    text-white/45
+                  "
+                >
+                  {feature.description}
+                </p>
+              </div>
+
+              {/* Phone */}
+              <div className="flex justify-center">
+                <div
+                  className="
+                    relative
+                    w-[78vw]
+                    max-w-[340px]
+                    rounded-[42px]
+                    border
+                    border-white/[0.14]
+                    bg-[#111419]
+                    p-[6px]
+                    shadow-[0_25px_70px_rgba(0,0,0,0.45)]
+                  "
+                >
+                  <div
+                    className="
+                      relative
+                      aspect-[9/19.5]
+                      overflow-hidden
+                      rounded-[36px]
+                      bg-black
+                    "
+                  >
+                    <img
+                      src={feature.image}
+                      alt={feature.title}
+                      draggable="false"
+                      className="
+                        h-full
+                        w-full
+                        select-none
+                        object-cover
+                      "
+                    />
+
+                    <div
+                      className="
+                        pointer-events-none
+                        absolute
+                        inset-0
+                        bg-gradient-to-b
+                        from-black/[0.08]
+                        via-transparent
+                        to-black/[0.12]
+                      "
+                    />
+                  </div>
+
+                  {/* Dynamic Island */}
+                  <div
+                    className="
+                      absolute
+                      left-1/2
+                      top-[9px]
+                      h-[4px]
+                      w-16
+                      -translate-x-1/2
+                      rounded-full
+                      bg-black/90
+                    "
+                  />
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
