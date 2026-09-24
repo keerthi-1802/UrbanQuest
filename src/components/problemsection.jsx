@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Offer from "../assets/offer.png";
+import Offer from "../assets/Offer.png";
 
 export default function ProblemSection() {
   const [active, setActive] = useState(0);
