@@ -4,3 +4,20 @@
 body {
   font-family: 'Manrope', sans-serif;
 }
+
+/* Mobile infinite left → right loop */
+@media (max-width: 767px) {
+  .animate-world-loop {
+    animation: worldLoop 16s linear infinite;
+    animation-delay: 0.8s;
+  }
+
+  @keyframes worldLoop {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+}

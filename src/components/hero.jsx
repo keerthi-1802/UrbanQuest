@@ -8,7 +8,7 @@ const Hero = () => {
       <img
         src={walk}
         alt="Sunny walking street"
-        className="absolute inset-0 h-full w-full object-cover object-center"
+        className="absolute inset-0 h-full w-full object-cover object-[78%_center] md:object-center"
       />
 
       {/* Overlay */}
@@ -20,7 +20,7 @@ const Hero = () => {
           <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-black/60" />
             <span className="text-xs font-semibold uppercase tracking-[0.2em]">
-              UrbanQuest • Walking Adventure
+              PO GET IT
             </span>
           </div>
 
@@ -47,39 +47,7 @@ const Hero = () => {
               />
             </a>
           </div>
-          {/* Inline Quest Card */}
-          <div className="mt-12 rounded-3xl border border-white/20 bg-white/10 p-5 backdrop-blur-xl">
-            <div className="flex items-center justify-between">
-              <span className="rounded-full bg-black/60 px-3 py-1 text-xs font-semibold text-white">
-                Active Quest
-              </span>
-              {/* <span className="text-sm font-bold">+250 XP</span> */}
-            </div>
-
-            <h3 className="mt-3 text-2xl font-bold">
-              Race Course Heritage Walk
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-black/75 ">
-              Capture 5 iconic street moments across a 2.1 km walking trail
-              during golden hour.
-            </p>
-
-            <div className="mt-4 flex gap-6 text-sm">
-              <div>
-                <p className="text-white/50">Distance</p>
-                <p className="font-semibold">2.1 km</p>
-              </div>
-              <div>
-                <p className="text-white/50">Time</p>
-                <p className="font-semibold">35 mins</p>
-              </div>
-              <div>
-                <p className="text-white/50">Level</p>
-                <p className="font-semibold">Easy</p>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </div>
     </section>

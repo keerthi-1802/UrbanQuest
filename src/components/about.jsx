@@ -13,42 +13,42 @@ gsap.registerPlugin(ScrollTrigger);
 const features = [
   {
     number: "01",
-    eyebrow: "Discover",
-    title: "Start with what is around you.",
+    eyebrow: "Onboarding",
+    title: "Choose what you love exploring.",
     description:
-      "Your surroundings become part of the experience. Discover something interesting without having to plan your next move.",
+      "Personalize Quest by selecting activities like Walking, Photography, Café Exploration, or Mindfulness. Every recommendation starts with your interests.",
     image: step1,
   },
   {
     number: "02",
-    eyebrow: "Explore",
-    title: "Turn curiosity into a simple action.",
+    eyebrow: "Daily Schedule",
+    title: "Pick the time you actually have.",
     description:
-      "Get a clear prompt that gives you a reason to step outside, look closer and explore what is already around you.",
+      "Whether it's 15, 30, or 60 minutes, Quest adapts the distance, checkpoints, and experience to fit your everyday routine.",
     image: step2,
   },
   {
     number: "03",
-    eyebrow: "Quest",
-    title: "Follow the quest. Forget the planning.",
+    eyebrow: "Today's Quest",
+    title: "Receive one meaningful adventure.",
     description:
-      "No complicated itineraries or endless scrolling. Just one simple quest designed to get you moving.",
+      "Get a curated quest with walking distance, estimated time, XP rewards, and a clear destination—ready whenever you are.",
     image: quest,
   },
   {
     number: "04",
-    eyebrow: "Experience",
-    title: "Make ordinary moments count.",
+    eyebrow: "Explore",
+    title: "Discover cafés, heritage & hidden places.",
     description:
-      "A short walk, a new place or a small discovery can become something worth remembering.",
+      "Browse nearby experiences with curated local spots, directions, and instant quests designed around your city.",
     image: Explore,
   },
   {
     number: "05",
     eyebrow: "Journey",
-    title: "Build your story, one quest at a time.",
+    title: "Turn every walk into lasting memories.",
     description:
-      "Small experiences gradually become your journey — a collection of places, moments and memories.",
+      "Track completed quests, build streaks, earn achievements, and watch your personal exploration journey grow over time.",
     image: Journey,
   },
 ];
@@ -62,6 +62,15 @@ export default function AboutSection() {
 
   const activeRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [mobileIndex, setMobileIndex] = useState(0);
+
+  const nextSlide = () => {
+    setMobileIndex((prev) => Math.min(prev + 1, features.length - 1));
+  };
+
+  const prevSlide = () => {
+    setMobileIndex((prev) => Math.max(prev - 1, 0));
+  };
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -75,26 +84,21 @@ export default function AboutSection() {
 
       if (!images.length || !contents.length) return;
 
-      /*
-       * ---------------------------------------------------------
-       * INITIAL STATE
-       * ---------------------------------------------------------
-       */
 
+      // Initial state
       gsap.set(images, {
         autoAlpha: 0,
-        scale: 1.035,
+        scale: 1.03,
         y: 20,
         force3D: true,
       });
 
       gsap.set(contents, {
         autoAlpha: 0,
-        y: 35,
+        y: 30,
         force3D: true,
       });
 
-      // First screen visible immediately
       gsap.set(images[0], {
         autoAlpha: 1,
         scale: 1,
@@ -106,102 +110,66 @@ export default function AboutSection() {
         y: 0,
       });
 
-      /*
-       * ---------------------------------------------------------
-       * MASTER TIMELINE
-       *
-       * 0 = Step 1
-       * 1 = Step 2
-       * 2 = Step 3
-       * 3 = Step 4
-       * 4 = Step 5
-       * ---------------------------------------------------------
-       */
-
       const timeline = gsap.timeline({
-        defaults: {
-          ease: "power3.inOut",
-        },
+        defaults: { ease: "power3.inOut" },
       });
 
-      const transitionDuration = 0.32;
+      const transitionDuration = 0.28;
+      const STEP = 1.25; // more sensitive: 1 swipe ≈ 1 screen
 
       for (let index = 1; index < features.length; index++) {
         const previous = index - 1;
         const current = index;
+        const pos = previous * STEP;
 
         timeline
-          // Previous image leaves
-          .to(
-            images[previous],
-            {
-              autoAlpha: 0,
-              scale: 0.965,
-              y: -18,
-              duration: transitionDuration,
-            },
-            index
-          )
-
-          // Current image enters
-          .fromTo(
-            images[current],
-            {
-              autoAlpha: 0,
-              scale: 1.035,
-              y: 22,
-            },
-            {
-              autoAlpha: 1,
-              scale: 1,
-              y: 0,
-              duration: transitionDuration,
-            },
-            index
-          )
-
-          // Previous content leaves
-          .to(
-            contents[previous],
-            {
-              autoAlpha: 0,
-              y: -28,
-              duration: transitionDuration,
-            },
-            index
-          )
-
-          // Current content enters
-          .fromTo(
-            contents[current],
-            {
-              autoAlpha: 0,
-              y: 30,
-            },
-            {
-              autoAlpha: 1,
-              y: 0,
-              duration: transitionDuration,
-            },
-            index + 0.04
-          );
+          .to(images[previous], {
+            autoAlpha: 0,
+            scale: 0.96,
+            y: -18,
+            duration: transitionDuration,
+          }, pos)
+          .fromTo(images[current], {
+            autoAlpha: 0,
+            scale: 1.03,
+            y: 18,
+          }, {
+            autoAlpha: 1,
+            scale: 1,
+            y: 0,
+            duration: transitionDuration,
+          }, pos)
+          .to(contents[previous], {
+            autoAlpha: 0,
+            y: -24,
+            duration: 0.22,
+          }, pos)
+          .fromTo(contents[current], {
+            autoAlpha: 0,
+            y: 24,
+          }, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.22,
+          }, pos + 0.04);
       }
+
+      // ScrollTrigger
       ScrollTrigger.create({
         trigger: stage,
         start: "top top",
-        end: "+=200%",
-
+        end: `+=${features.length * 100}%`, // 500%
         pin: true,
         pinSpacing: true,
-        scrub: 0.8,
+        scrub: 0.15,
         anticipatePin: 1,
         invalidateOnRefresh: true,
-
         animation: timeline,
 
-        // ❌ Remove snap
         onUpdate: (self) => {
-          const index = Math.round(self.progress * (features.length - 1));
+          const index = Math.round(
+            self.progress * (features.length - 1)
+          );
 
           if (index !== activeRef.current) {
             activeRef.current = index;
@@ -209,17 +177,11 @@ export default function AboutSection() {
           }
         },
       });
-      /*
-       * Refresh after all images/components have been rendered.
-       */
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
-    }, sectionRef);
 
-    return () => {
-      ctx.revert();
-    };
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }, section);
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -281,49 +243,27 @@ export default function AboutSection() {
           INTRO
       ======================================================= */}
 
-      <div className="relative mx-auto flex min-h-[75vh] max-w-7xl items-center px-6 py-24 lg:px-12">
+      <div className="relative mx-auto flex min-h-[70vh] max-w-7xl items-center px-6 py-20 lg:px-12">
         <div className="max-w-4xl">
-          <div className="mb-7 flex items-center gap-3">
-            <span className="h-px w-10 bg-white/40" />
-
-            <span className="text-xs font-medium uppercase tracking-[0.28em] text-white/45">
-              Why Po Get It
+          <div className="mb-6 flex items-center gap-3">
+            <span className="h-px w-10 bg-cyan-400" />
+            <span className="text-xs font-medium uppercase tracking-[0.28em] text-cyan-300">
+              The Quest Experience
             </span>
           </div>
 
-          <h2
-            className="
-              text-balance
-              text-5xl
-              font-medium
-              leading-[0.98]
-              tracking-[-0.05em]
-              sm:text-6xl
-              lg:text-8xl
-            "
-          >
-            Your next experience
+          <h2 className="text-5xl font-medium leading-[0.95] tracking-[-0.05em] sm:text-6xl lg:text-8xl">
+            From choosing
             <br />
-            is closer than
+            your interests
             <br />
-            <span className="text-white/30">
-              you think.
-            </span>
+            <span className="text-white/30">to real-world quests.</span>
           </h2>
 
-          <p
-            className="
-              mt-8
-              max-w-xl
-              text-base
-              leading-7
-              text-white/50
-              sm:text-lg
-            "
-          >
-            Po Get It turns ordinary surroundings into opportunities
-            for exploration. Open the app, get a simple quest, and
-            turn a few minutes into something worth remembering.
+          <p className="mt-8 max-w-xl text-base leading-7 text-white/55 sm:text-lg">
+            Quest transforms everyday free time into meaningful adventures. Personalize
+            your interests, choose your available time, discover curated places and
+            build memories worth keeping.
           </p>
         </div>
       </div>
@@ -339,122 +279,43 @@ export default function AboutSection() {
       <div className="relative hidden lg:block">
         <div
           ref={stageRef}
-          className="
-            relative
-            flex
-            h-screen
-            w-full
-            items-center
-            overflow-hidden
-          "
+          className="relative flex h-screen items-center justify-center overflow-hidden"
         >
-          {/* Main container */}
-          <div
-            className="
-              mx-auto
-              grid
-              w-full
-              max-w-7xl
-              grid-cols-[1fr_420px]
-              items-center
-              gap-24
-              px-12
-              xl:grid-cols-[1fr_460px]
-              xl:gap-32
-            "
-          >
-            {/* ==================================================
-                LEFT CONTENT
-            =================================================== */}
-
-            <div className="relative h-[400px]">
+          <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-6 lg:grid-cols-[1fr_380px] lg:gap-24 lg:px-12 xl:grid-cols-[1fr_420px]">
+            {/* LEFT CONTENT */}
+            <div className="relative order-2 h-[230px] sm:h-[260px] lg:order-1 lg:h-[420px]">
               {features.map((feature, index) => (
                 <div
                   key={feature.number}
-                  ref={(element) => {
-                    contentRefs.current[index] = element;
-                  }}
-                  className="
-                    pointer-events-none
-                    absolute
-                    inset-0
-                    flex
-                    max-w-xl
-                    flex-col
-                    justify-center
-                  "
+                  ref={(el) => (contentRefs.current[index] = el)}
+                  className="absolute inset-0 flex flex-col justify-center"
                 >
-                  {/* Number + Category */}
-                  <div className="mb-7 flex items-center gap-4">
-                    <span
-                      className="
-                        font-mono
-                        text-sm
-                        tracking-[0.18em]
-                        text-white/30
-                      "
-                    >
+                  <div className="mb-5 flex items-center gap-3">
+                    <span className="font-mono text-xs tracking-[0.2em] text-cyan-300">
                       {feature.number}
                     </span>
 
-                    <span className="h-px w-12 bg-white/15" />
+                    <span className="h-px w-8 bg-white/20" />
 
-                    <span
-                      className="
-                        text-xs
-                        font-medium
-                        uppercase
-                        tracking-[0.25em]
-                        text-white/40
-                      "
-                    >
+                    <span className="text-[11px] font-medium uppercase tracking-[0.25em] text-white/45">
                       {feature.eyebrow}
                     </span>
                   </div>
 
-                  {/* Heading */}
-                  <h3
-                    className="
-                      max-w-xl
-                      text-5xl
-                      font-medium
-                      leading-[1.02]
-                      tracking-[-0.045em]
-                      xl:text-6xl
-                    "
-                  >
+                  <h3 className="max-w-xl text-3xl font-medium leading-tight tracking-[-0.04em] sm:text-4xl lg:text-5xl">
                     {feature.title}
                   </h3>
 
-                  {/* Description */}
-                  <p
-                    className="
-                      mt-7
-                      max-w-lg
-                      text-base
-                      leading-7
-                      text-white/45
-                      xl:text-lg
-                    "
-                  >
+                  <p className="mt-5 max-w-lg text-sm leading-6 text-white/55 sm:text-base sm:leading-7">
                     {feature.description}
                   </p>
 
-                  {/* Progress indicators */}
-                  <div className="mt-10 flex items-center gap-2">
-                    {features.map((_, dotIndex) => (
+                  <div className="mt-7 flex gap-2">
+                    {features.map((_, i) => (
                       <span
-                        key={dotIndex}
-                        className={`
-                          h-1
-                          rounded-full
-                          transition-all
-                          duration-500
-                          ${dotIndex === index
-                            ? "w-10 bg-white"
-                            : "w-2 bg-white/20"
-                          }
-                        `}
+                        key={i}
+                        className={`h-1 rounded-full transition-all duration-500 ${i === index ? "w-10 bg-cyan-400" : "w-2 bg-white/20"
+                          }`}
                       />
                     ))}
                   </div>
@@ -462,343 +323,139 @@ export default function AboutSection() {
               ))}
             </div>
 
-            {/* ==================================================
-                PHONE
-            =================================================== */}
+            {/* PHONE */}
+            <div className="order-1 flex justify-center lg:order-2">
+              <div className="relative h-[58vh] w-[290px] sm:h-[64vh] sm:w-[320px] lg:h-[680px] lg:w-[340px] xl:h-[700px] xl:w-[350px]">
+                <div className="absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[90px] lg:h-[520px] lg:w-[520px]" />
 
-            <div className="flex items-center justify-center">
-              <div
-                className="
-                  relative
-                  h-[680px]
-                  w-[340px]
-                  xl:h-[700px]
-                  xl:w-[350px]
-                "
-              >
-                {/* Phone glow */}
-                <div
-                  className="
-                    absolute
-                    left-1/2
-                    top-1/2
-                    h-[520px]
-                    w-[520px]
-                    -translate-x-1/2
-                    -translate-y-1/2
-                    rounded-full
-                    bg-blue-500/[0.07]
-                    blur-[110px]
-                  "
-                />
-
-                {/* Phone body */}
-                <div
-                  className="
-                    absolute
-                    inset-0
-                    rounded-[48px]
-                    border
-                    border-white/[0.14]
-                    bg-[#111419]
-                    p-[7px]
-                    shadow-[0_35px_100px_rgba(0,0,0,0.6)]
-                  "
-                >
-                  {/* Screen */}
-                  <div
-                    className="
-                      relative
-                      h-full
-                      w-full
-                      overflow-hidden
-                      rounded-[41px]
-                      bg-black
-                    "
-                  >
+                <div className="absolute inset-0 rounded-[46px] border border-white/10 bg-[#111827] p-[7px] shadow-[0_35px_90px_rgba(0,0,0,.55)]">
+                  <div className="relative h-full overflow-hidden rounded-[38px] bg-black">
                     {features.map((feature, index) => (
                       <div
                         key={feature.number}
-                        ref={(element) => {
-                          imageRefs.current[index] = element;
-                        }}
-                        className="
-                          absolute
-                          inset-0
-                          h-full
-                          w-full
-                          overflow-hidden
-                        "
+                        ref={(el) => (imageRefs.current[index] = el)}
+                        className="absolute inset-0"
                       >
                         <img
                           src={feature.image}
                           alt={feature.title}
-                          draggable="false"
-                          className="
-                            h-full
-                            w-full
-                            select-none
-                            object-cover
-                          "
+                          className="h-full w-full object-cover"
+                          draggable={false}
                         />
 
-                        {/* Subtle screen overlay */}
-                        <div
-                          className="
-                            pointer-events-none
-                            absolute
-                            inset-0
-                            bg-gradient-to-b
-                            from-black/[0.08]
-                            via-transparent
-                            to-black/[0.12]
-                          "
-                        />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/15" />
                       </div>
                     ))}
                   </div>
 
-                  {/* Dynamic Island */}
-                  <div
-                    className="
-                      absolute
-                      left-1/2
-                      top-[10px]
-                      h-[5px]
-                      w-20
-                      -translate-x-1/2
-                      rounded-full
-                      bg-black/90
-                    "
-                  />
+                  <div className="absolute left-1/2 top-2 h-5 w-24 -translate-x-1/2 rounded-full bg-black" />
                 </div>
 
-                {/* Glass reflection */}
-                <div
-                  className="
-                    pointer-events-none
-                    absolute
-                    inset-0
-                    rounded-[48px]
-                    bg-gradient-to-br
-                    from-white/[0.07]
-                    via-transparent
-                    to-transparent
-                  "
+                <div className="pointer-events-none absolute inset-0 rounded-[46px] bg-gradient-to-br from-white/10 via-transparent to-transparent" />
+              </div>
+            </div>
+          </div>
+
+          {/* STEP COUNTER */}
+          <div className="absolute bottom-8 right-6 lg:right-12">
+            <span className="font-mono text-xs tracking-[0.2em] text-white/35">
+              {String(activeIndex + 1).padStart(2, "0")} / 05
+            </span>
+          </div>
+
+          {/* SCROLL TEXT */}
+          <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex">
+            <span className="text-[10px] uppercase tracking-[0.28em] text-white/30">
+              Scroll
+            </span>
+            <div className="h-10 w-px bg-white/10">
+              <div className="h-1/2 w-full animate-pulse bg-cyan-300" />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* ================= MOBILE SLIDER ================= */}
+      <div className="block lg:hidden px-6 pb-16">
+        <div className="mx-auto max-w-sm">
+
+          {/* Phone */}
+          <div className="relative">
+            <div className="rounded-[34px] border border-white/10 bg-[#111827] p-[6px] shadow-2xl">
+              <div className="relative overflow-hidden rounded-[28px]">
+
+                <img
+                  src={features[mobileIndex].image}
+                  alt={features[mobileIndex].title}
+                  className="h-[500px] w-full object-cover transition-all duration-500"
                 />
+
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
               </div>
             </div>
+
+            {/* Notch */}
+            <div className="absolute left-1/2 top-2 h-5 w-24 -translate-x-1/2 rounded-full bg-black" />
           </div>
 
-          {/* ==================================================
-              BOTTOM SCROLL INDICATOR
-          =================================================== */}
-
-          <div
-            className="
-              absolute
-              bottom-10
-              left-1/2
-              flex
-              -translate-x-1/2
-              flex-col
-              items-center
-              gap-3
-            "
-          >
-            <span
-              className="
-                text-[10px]
-                font-medium
-                uppercase
-                tracking-[0.3em]
-                text-white/25
-              "
-            >
-              Scroll to explore
-            </span>
-
-            <div className="relative h-10 w-px overflow-hidden bg-white/10">
-              <div
-                className="
-                  absolute
-                  left-0
-                  top-0
-                  h-1/2
-                  w-full
-                  animate-pulse
-                  bg-white/50
-                "
-              />
+          {/* Content */}
+          <div className="mt-8 text-center">
+            <div className="mb-3 flex items-center justify-center gap-2">
+              <span className="font-mono text-xs tracking-[0.2em] text-cyan-300">
+                {features[mobileIndex].number}
+              </span>
+              <span className="h-px w-6 bg-white/20" />
+              <span className="text-[11px] uppercase tracking-[0.25em] text-white/50">
+                {features[mobileIndex].eyebrow}
+              </span>
             </div>
+
+            <h3 className="text-3xl font-medium leading-tight tracking-[-0.04em]">
+              {features[mobileIndex].title}
+            </h3>
+
+            <p className="mt-4 text-sm leading-7 text-white/60">
+              {features[mobileIndex].description}
+            </p>
           </div>
 
-          {/* ==================================================
-              CURRENT STEP
-          =================================================== */}
+          {/* Arrows + Counter */}
+          <div className="mt-8 flex items-center justify-between">
 
-          <div
-            className="
-              absolute
-              bottom-10
-              right-12
-            "
-          >
-            <span
-              className="
-                font-mono
-                text-xs
-                tracking-[0.2em]
-                text-white/25
-              "
+            <button
+              onClick={prevSlide}
+              disabled={mobileIndex === 0}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 disabled:opacity-30"
             >
-              {String(activeIndex + 1).padStart(2, "0")}
-              {" / "}
-              {String(features.length).padStart(2, "0")}
-            </span>
+              ←
+            </button>
+
+            <div className="flex gap-2">
+              {features.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-1 rounded-full transition-all ${i === mobileIndex
+                    ? "w-8 bg-cyan-400"
+                    : "w-2 bg-white/20"
+                    }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={nextSlide}
+              disabled={mobileIndex === features.length - 1}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 disabled:opacity-30"
+            >
+              →
+            </button>
           </div>
+
+          <p className="mt-4 text-center font-mono text-xs tracking-[0.2em] text-white/35">
+            {String(mobileIndex + 1).padStart(2, "0")} / 05
+          </p>
         </div>
       </div>
 
-      {/* ======================================================
-          MOBILE
-          
-          Normal document scrolling.
-          No ScrollTrigger required.
-      ======================================================= */}
-
-      <div
-        className="
-          relative
-          block
-          px-6
-          pb-28
-          lg:hidden
-        "
-      >
-        <div className="space-y-32">
-          {features.map((feature) => (
-            <article key={feature.number}>
-              {/* Content */}
-              <div className="mb-10">
-                <div className="mb-5 flex items-center gap-3">
-                  <span
-                    className="
-                      font-mono
-                      text-xs
-                      tracking-[0.2em]
-                      text-white/30
-                    "
-                  >
-                    {feature.number}
-                  </span>
-
-                  <span className="h-px w-8 bg-white/15" />
-
-                  <span
-                    className="
-                      text-[10px]
-                      font-medium
-                      uppercase
-                      tracking-[0.25em]
-                      text-white/40
-                    "
-                  >
-                    {feature.eyebrow}
-                  </span>
-                </div>
-
-                <h3
-                  className="
-                    text-4xl
-                    font-medium
-                    leading-[1.02]
-                    tracking-[-0.04em]
-                  "
-                >
-                  {feature.title}
-                </h3>
-
-                <p
-                  className="
-                    mt-5
-                    text-base
-                    leading-7
-                    text-white/45
-                  "
-                >
-                  {feature.description}
-                </p>
-              </div>
-
-              {/* Phone */}
-              <div className="flex justify-center">
-                <div
-                  className="
-                    relative
-                    w-[78vw]
-                    max-w-[340px]
-                    rounded-[42px]
-                    border
-                    border-white/[0.14]
-                    bg-[#111419]
-                    p-[6px]
-                    shadow-[0_25px_70px_rgba(0,0,0,0.45)]
-                  "
-                >
-                  <div
-                    className="
-                      relative
-                      aspect-[9/19.5]
-                      overflow-hidden
-                      rounded-[36px]
-                      bg-black
-                    "
-                  >
-                    <img
-                      src={feature.image}
-                      alt={feature.title}
-                      draggable="false"
-                      className="
-                        h-full
-                        w-full
-                        select-none
-                        object-cover
-                      "
-                    />
-
-                    <div
-                      className="
-                        pointer-events-none
-                        absolute
-                        inset-0
-                        bg-gradient-to-b
-                        from-black/[0.08]
-                        via-transparent
-                        to-black/[0.12]
-                      "
-                    />
-                  </div>
-
-                  {/* Dynamic Island */}
-                  <div
-                    className="
-                      absolute
-                      left-1/2
-                      top-[9px]
-                      h-[4px]
-                      w-16
-                      -translate-x-1/2
-                      rounded-full
-                      bg-black/90
-                    "
-                  />
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
