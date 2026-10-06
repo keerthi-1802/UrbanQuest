@@ -374,87 +374,113 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
+      
       {/* ================= MOBILE SLIDER ================= */}
-      <div className="block lg:hidden px-6 pb-16">
+      <div className="block px-6 pb-12 lg:hidden">
         <div className="mx-auto max-w-sm">
 
-          {/* Phone */}
-          <div className="relative">
-            <div className="rounded-[34px] border border-white/10 bg-[#111827] p-[6px] shadow-2xl">
-              <div className="relative overflow-hidden rounded-[28px]">
+          {/* ================= ALL CONTENT ABOVE PHONE ================= */}
+          <div className="text-center">
 
-                <img
-                  src={features[mobileIndex].image}
-                  alt={features[mobileIndex].title}
-                  className="h-[500px] w-full object-cover transition-all duration-500"
-                />
+            {/* Navigation + 01–05 */}
+            <div className="mb-5 flex items-center justify-between">
 
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
+              {/* Previous */}
+              <button
+                onClick={prevSlide}
+                disabled={mobileIndex === 0}
+                aria-label="Previous feature"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg transition hover:bg-white/10 disabled:opacity-30"
+              >
+                ←
+              </button>
+
+              {/* Progress */}
+              <div className="flex items-center gap-2">
+                {features.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`h-1 rounded-full transition-all duration-300 ${i === mobileIndex
+                        ? "w-8 bg-cyan-400"
+                        : "w-2 bg-white/20"
+                      }`}
+                  />
+                ))}
               </div>
+
+              {/* Next */}
+              <button
+                onClick={nextSlide}
+                disabled={mobileIndex === features.length - 1}
+                aria-label="Next feature"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg transition hover:bg-white/10 disabled:opacity-30"
+              >
+                →
+              </button>
             </div>
 
-            {/* Notch */}
-            <div className="absolute left-1/2 top-2 h-5 w-24 -translate-x-1/2 rounded-full bg-black" />
-          </div>
+            {/* Step Counter */}
+            <p className="mb-4 font-mono text-[10px] tracking-[0.2em] text-white/35">
+              {String(mobileIndex + 1).padStart(2, "0")} / 05
+            </p>
 
-          {/* Content */}
-          <div className="mt-8 text-center">
+            {/* Feature Number + Eyebrow */}
             <div className="mb-3 flex items-center justify-center gap-2">
               <span className="font-mono text-xs tracking-[0.2em] text-cyan-300">
                 {features[mobileIndex].number}
               </span>
+
               <span className="h-px w-6 bg-white/20" />
-              <span className="text-[11px] uppercase tracking-[0.25em] text-white/50">
+
+              <span className="text-[10px] uppercase tracking-[0.22em] text-white/50">
                 {features[mobileIndex].eyebrow}
               </span>
             </div>
 
-            <h3 className="text-3xl font-medium leading-tight tracking-[-0.04em]">
+            {/* Title */}
+            <h3 className="text-2xl font-medium leading-[1.1] tracking-[-0.04em] sm:text-3xl">
               {features[mobileIndex].title}
             </h3>
 
-            <p className="mt-4 text-sm leading-7 text-white/60">
+            {/* Description */}
+            <p className="mx-auto mt-3 max-w-[340px] text-sm leading-6 text-white/60">
               {features[mobileIndex].description}
             </p>
           </div>
 
-          {/* Arrows + Counter */}
-          <div className="mt-8 flex items-center justify-between">
+          {/* ================= PHONE IMAGE ================= */}
+          <div className="relative mx-auto mt-6 w-[230px] sm:w-[250px]">
 
-            <button
-              onClick={prevSlide}
-              disabled={mobileIndex === 0}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 disabled:opacity-30"
-            >
-              ←
-            </button>
+            {/* Glow */}
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 blur-[70px]" />
 
-            <div className="flex gap-2">
-              {features.map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-1 rounded-full transition-all ${i === mobileIndex
-                    ? "w-8 bg-cyan-400"
-                    : "w-2 bg-white/20"
-                    }`}
+            {/* Phone */}
+            <div className="relative rounded-[32px] border border-white/10 bg-[#111827] p-[5px] shadow-[0_25px_60px_rgba(0,0,0,.5)]">
+
+              <div className="relative overflow-hidden rounded-[27px] bg-black">
+
+                <img
+                  src={features[mobileIndex].image}
+                  alt={features[mobileIndex].title}
+                  className="h-[470px] w-full object-cover transition-all duration-500"
                 />
-              ))}
+
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
+
+              </div>
+
+              {/* Notch */}
+              <div className="absolute left-1/2 top-2 h-4 w-20 -translate-x-1/2 rounded-full bg-black" />
             </div>
 
-            <button
-              onClick={nextSlide}
-              disabled={mobileIndex === features.length - 1}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 disabled:opacity-30"
-            >
-              →
-            </button>
+            {/* Phone Highlight */}
+            <div className="pointer-events-none absolute inset-0 rounded-[32px] bg-gradient-to-br from-white/10 via-transparent to-transparent" />
+
           </div>
 
-          <p className="mt-4 text-center font-mono text-xs tracking-[0.2em] text-white/35">
-            {String(mobileIndex + 1).padStart(2, "0")} / 05
-          </p>
         </div>
       </div>
+     
 
     </section>
   );
