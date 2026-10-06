@@ -48,45 +48,67 @@ export default function QuestWorlds() {
   }, [worlds.length]);
 
   const Card = ({ world }) => (
-    <article className="group relative h-[430px] overflow-hidden rounded-[28px] bg-black">
+    <article
+      className="
+        group relative h-[300px] overflow-hidden rounded-[22px] bg-black
+        sm:h-[350px]
+        md:h-[430px]
+        md:rounded-[28px]
+      "
+    >
       <img
         src={world.image}
         alt={world.title}
-        className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+        className="
+          absolute inset-0 h-full w-full object-cover
+          transition duration-700
+          group-hover:scale-105
+        "
       />
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/5" />
 
-      <div className="absolute left-6 right-6 top-6 flex items-center justify-between">
-        <span className="text-sm font-medium text-white/80">
+      {/* Top content */}
+      <div className="absolute left-4 right-4 top-4 flex items-center justify-between md:left-6 md:right-6 md:top-6">
+        <span className="text-xs font-medium text-white/80 md:text-sm">
           {world.number}
         </span>
 
-        <span className="rounded-full border border-white/30 bg-white/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-white backdrop-blur-md">
+        <span className="rounded-full border border-white/30 bg-white/10 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.18em] text-white backdrop-blur-md md:px-3 md:py-1.5 md:text-[10px]">
           {world.tag}
         </span>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-        <div className="flex items-end justify-between gap-5">
+      {/* Bottom content */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
+        <div className="flex items-end justify-between gap-3 md:gap-5">
           <div>
-            <h3 className="text-4xl font-medium tracking-[-0.04em] text-white sm:text-5xl">
+            <h3 className="text-3xl font-medium tracking-[-0.04em] text-white md:text-5xl">
               {world.title}
             </h3>
 
-            <p className="mt-3 max-w-sm text-sm leading-6 text-white/70">
+            <p className="mt-2 max-w-sm text-xs leading-5 text-white/70 md:mt-3 md:text-sm md:leading-6">
               {world.description}
             </p>
           </div>
 
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform duration-300 group-hover:rotate-45">
+          <div
+            className="
+              flex h-9 w-9 shrink-0 items-center justify-center
+              rounded-full bg-white text-black
+              transition-transform duration-300
+              group-hover:rotate-45
+              md:h-11 md:w-11
+            "
+          >
             <svg
-              width="17"
-              height="17"
+              width="15"
+              height="15"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.8"
+              className="md:h-[17px] md:w-[17px]"
             >
               <path d="M5 12h14" />
               <path d="m13 6 6 6-6 6" />
@@ -98,23 +120,44 @@ export default function QuestWorlds() {
   );
 
   return (
-    <section className="bg-[#f4f1eb] px-5 py-24 sm:px-8 lg:px-12">
+    <section
+      className="
+        bg-[#f4f1eb]
+        px-5 py-12
+        sm:px-8 sm:py-16
+        lg:px-12 lg:py-24
+      "
+    >
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-14 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div
+          className="
+            mb-8 flex flex-col justify-between gap-5
+            sm:mb-10
+            md:mb-14 md:flex-row md:items-end md:gap-8
+          "
+        >
           <div>
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-black/45">
+            <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.22em] text-black/45 md:mb-4 md:text-xs">
               Four quest worlds
             </p>
 
-            <h2 className="max-w-2xl text-4xl font-medium leading-[0.95] tracking-[-0.04em] text-[#171717] sm:text-5xl lg:text-7xl">
+            <h2
+              className="
+                max-w-2xl
+                text-4xl font-medium leading-[0.95] tracking-[-0.04em]
+                text-[#171717]
+                sm:text-5xl
+                lg:text-7xl
+              "
+            >
               Pick a world.
               <br />
               <span className="text-black/35">Start anywhere.</span>
             </h2>
           </div>
 
-          <p className="max-w-xs text-sm leading-6 text-black/55">
+          <p className="max-w-xs text-xs leading-5 text-black/55 md:text-sm md:leading-6">
             Four simple ways to turn your next free moment into something worth
             remembering.
           </p>
@@ -143,31 +186,37 @@ export default function QuestWorlds() {
           </div>
 
           {/* Indicators */}
-          <div className="mt-5 flex justify-center gap-2">
+          <div className="mt-3 flex justify-center gap-1.5">
             {worlds.map((_, index) => (
               <div
                 key={index}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
+                className={`h-1 rounded-full transition-all duration-300 ${
                   active === index
-                    ? "w-8 bg-neutral-900"
-                    : "w-2 bg-neutral-300"
+                    ? "w-6 bg-neutral-900"
+                    : "w-1.5 bg-neutral-300"
                 }`}
               />
             ))}
           </div>
 
-          <p className="mt-3 text-center text-[11px] text-black/40">
+          <p className="mt-2 text-center text-[10px] text-black/40">
             {active + 1} / {worlds.length}
           </p>
         </div>
 
         {/* Footer */}
-        <div className="mt-8 flex items-center justify-between border-t border-black/10 pt-5">
-          <span className="text-xs uppercase tracking-[0.18em] text-black/40">
+        <div
+          className="
+            mt-5 flex items-center justify-between
+            border-t border-black/10 pt-4
+            md:mt-8 md:pt-5
+          "
+        >
+          <span className="text-[10px] uppercase tracking-[0.18em] text-black/40 md:text-xs">
             Four ways to quest
           </span>
 
-          <span className="text-xs text-black/40">
+          <span className="hidden text-xs text-black/40 sm:block">
             Move · Explore · Notice · Reset
           </span>
         </div>

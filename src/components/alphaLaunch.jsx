@@ -53,7 +53,7 @@ export default function AlphaLaunch() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#f5f5f0] px-6 py-20 sm:px-10 lg:px-16" id="alpha">
+    <section className="relative overflow-hidden bg-[#f5f5f0] px-6 py-20 sm:px-10 lg:px-16" >
       <div className="mx-auto max-w-7xl">
 
         {/* SECTION HEADING */}
@@ -83,7 +83,7 @@ export default function AlphaLaunch() {
         </div>
 
         {/* MAIN CARD */}
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#111111] text-white">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#111111] text-white ">
 
           <div className="relative grid lg:grid-cols-[1.05fr_0.95fr]">
 
@@ -132,7 +132,7 @@ export default function AlphaLaunch() {
             </div>
 
             {/* RIGHT — FORM */}
-            <div className="relative flex flex-col justify-center border-t border-white/10 bg-white/[0.035] p-8 sm:p-12 lg:border-l lg:border-t-0 lg:p-14">
+            <div className="relative flex flex-col justify-center border-t border-white/10 bg-white/[0.035] p-8 sm:p-12 lg:border-l lg:border-t-0 lg:p-14"  id="alpha">
 
               {!submitted ? (
                 <>

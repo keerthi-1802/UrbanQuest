@@ -33,47 +33,54 @@ export default function ProblemSection() {
   }, []);
 
   return (
-    <section className="overflow-hidden bg-[#f4f2ed] px-6 py-24 md:px-10 md:py-32 lg:px-16">
+    <section className="overflow-hidden bg-[#f4f2ed] px-5 py-7 md:px-10 md:py-32 lg:px-16">
       <div className="mx-auto max-w-7xl">
+
         {/* Header */}
-        <div className="grid gap-10 md:grid-cols-[1.3fr_0.7fr] md:items-end">
+        <div className="grid gap-6 md:grid-cols-[1.3fr_0.7fr] md:items-end md:gap-10">
           <div>
             <div className="flex items-center gap-3">
-              <span className="h-px w-8 bg-neutral-400" />
-              <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-500">
+              <span className="h-px w-7 bg-neutral-400" />
+
+              <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">
                 The Problem
               </p>
             </div>
 
-            <h2 className="mt-7 max-w-5xl text-4xl font-medium leading-[0.95] tracking-[-0.05em] text-neutral-900 md:text-6xl lg:text-7xl">
+            <h2 className="mt-5 max-w-5xl text-[2.1rem] font-medium leading-[0.95] tracking-[-0.05em] text-neutral-900 md:mt-7 md:text-6xl lg:text-7xl">
               Your personal life is
               <br />
-              <span className="text-neutral-400">running out of moments.</span>
+              <span className="text-neutral-400">
+                running out of moments.
+              </span>
             </h2>
           </div>
 
           <div className="max-w-sm md:ml-auto">
-            <p className="text-sm leading-7 text-neutral-600">
-              The real danger isn't having no time—it's losing the small moments
-              that could become your favorite memories.
+            <p className="text-[13px] leading-6 text-neutral-600 md:text-sm md:leading-7">
+              The real danger isn't having no time—it's losing the small
+              moments that could become your favorite memories.
             </p>
 
-            <div className="mt-5 border-l border-neutral-300 pl-4">
-              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-400">
+            <div className="mt-4 border-l border-neutral-300 pl-4 md:mt-5">
+              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-neutral-400">
                 Our solution
               </p>
-              <p className="mt-2 text-sm leading-6 text-neutral-500">
+
+              <p className="mt-1.5 text-[13px] leading-6 text-neutral-500 md:mt-2 md:text-sm">
                 Quest transforms every free 10–30 minutes into a spontaneous
-                adventure, giving you meaningful experiences instead of another
-                scroll.
+                adventure, giving you meaningful experiences instead of
+                another scroll.
               </p>
             </div>
           </div>
         </div>
 
         {/* Hero Image */}
-        <div className="relative mt-20 overflow-hidden rounded-[2rem] md:mt-28 md:rounded-[2.5rem]">
-          <div className="h-[430px] md:h-[600px]">
+        <div className="relative mt-9 overflow-hidden rounded-[1.5rem] md:mt-28 md:rounded-[2.5rem]">
+
+          {/* Mobile image is much shorter */}
+          <div className="h-[260px] md:h-[600px]">
             <img
               src={Offer}
               alt="Friends exploring the city together"
@@ -83,87 +90,105 @@ export default function ProblemSection() {
 
           <div className="absolute inset-0 bg-black/25" />
 
-          <div className="absolute left-5 top-5 md:left-8 md:top-8">
-            <div className="rounded-full border border-white/30 bg-black/10 px-4 py-2 backdrop-blur-md">
-              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white">
+          {/* Badge */}
+          <div className="absolute left-4 top-4 md:left-8 md:top-8">
+            <div className="rounded-full border border-white/30 bg-black/10 px-3 py-1.5 backdrop-blur-md md:px-4 md:py-2">
+              <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-white md:text-[11px]">
                 The everyday loop
               </span>
             </div>
           </div>
 
-          <div className="absolute inset-0 flex items-end justify-center px-6 pb-24 text-center">
-            <div className="translate-y-12 md:translate-y-16">
-              <p className="mb-5 text-[11px] uppercase tracking-[0.25em] text-white/60">
+          {/* Image Text */}
+          <div className="absolute inset-0 flex items-end justify-center px-4 pb-12 text-center md:px-6 md:pb-24">
+            <div className="translate-y-4 md:translate-y-16">
+
+              <p className="mb-3 text-[9px] uppercase tracking-[0.25em] text-white/60 md:mb-5 md:text-[11px]">
                 It doesn't have to be this way
               </p>
 
-              <h3 className="text-4xl font-medium leading-[0.95] tracking-[-0.04em] text-white md:text-6xl lg:text-7xl">
+              <h3 className="text-[2rem] font-medium leading-[0.95] tracking-[-0.04em] text-white md:text-6xl lg:text-7xl">
                 Your city has
                 <br />
-                <span className="text-white/55">more to offer.</span>
+                <span className="text-white/55">
+                  more to offer.
+                </span>
               </h3>
+
             </div>
           </div>
 
-          <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between md:bottom-8 md:left-8 md:right-8">
-            <span className="text-xs text-white/60">01 — 03</span>
+          {/* Bottom controls */}
+          <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between md:bottom-8 md:left-8 md:right-8">
+            <span className="text-[10px] text-white/60 md:text-xs">
+              01 — 03
+            </span>
 
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-md">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/30 bg-white/10 text-sm text-white backdrop-blur-md md:h-10 md:w-10">
               ↓
             </span>
           </div>
         </div>
 
         {/* Everyday Loop */}
-        <div className="mt-20 md:mt-24">
-          <div className="mb-6 flex items-center justify-between">
-            <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-400">
+        <div className="mt-10 md:mt-24">
+
+          <div className="mb-4 flex items-center justify-between md:mb-6">
+            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-neutral-400 md:text-[11px]">
               The everyday loop
             </p>
 
-            <p className="text-[11px] text-neutral-400 md:hidden">
+            <p className="text-[10px] text-neutral-400 md:hidden">
               {active + 1} / 3
             </p>
 
-            <p className="hidden md:block text-[11px] text-neutral-400">
+            <p className="hidden text-[11px] text-neutral-400 md:block">
               3 common patterns
             </p>
           </div>
 
           {/* Mobile Auto Slider */}
           <div className="relative overflow-hidden md:hidden">
+
             <div
               className="flex transition-transform duration-700 ease-in-out"
-              style={{ transform: `translateX(-${active * 100}%)` }}
+              style={{
+                transform: `translateX(-${active * 100}%)`,
+              }}
             >
               {problems.map((problem) => (
-                <div key={problem.number} className="w-full flex-shrink-0">
-                  <div className="rounded-[28px] border border-neutral-300 bg-[#faf8f4] p-7">
-                    <p className="text-xs font-medium text-neutral-400">
+                <div
+                  key={problem.number}
+                  className="w-full flex-shrink-0"
+                >
+                  <div className="rounded-[22px] border border-neutral-300 bg-[#faf8f4] px-6 py-5">
+
+                    <p className="text-[10px] font-medium text-neutral-400">
                       {problem.number}
                     </p>
 
-                    <h3 className="mt-6 text-3xl font-medium leading-tight tracking-[-0.03em] text-neutral-900">
+                    <h3 className="mt-3 text-[1.7rem] font-medium leading-tight tracking-[-0.03em] text-neutral-900">
                       {problem.title}
                     </h3>
 
-                    <p className="mt-4 text-sm leading-7 text-neutral-500">
+                    <p className="mt-2 text-[13px] leading-6 text-neutral-500">
                       {problem.description}
                     </p>
+
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Indicators */}
-            <div className="mt-5 flex justify-center gap-2">
+            <div className="mt-3 flex justify-center gap-1.5">
               {problems.map((_, index) => (
                 <div
                   key={index}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     active === index
-                      ? "w-8 bg-neutral-900"
-                      : "w-2 bg-neutral-300"
+                      ? "w-6 bg-neutral-900"
+                      : "w-1.5 bg-neutral-300"
                   }`}
                 />
               ))}
@@ -194,40 +219,49 @@ export default function ProblemSection() {
         </div>
 
         {/* Transition */}
-        <div className="mt-24 border-t border-neutral-300 pt-12 md:mt-32 md:pt-16">
-          <div className="grid gap-10 md:grid-cols-[0.7fr_1.3fr] md:items-end">
+        <div className="mt-12 border-t border-neutral-300 pt-8 md:mt-32 md:pt-16">
+
+          <div className="grid gap-7 md:grid-cols-[0.7fr_1.3fr] md:items-end md:gap-10">
+
             <div>
               <div className="flex items-center gap-3">
-                <span className="h-px w-8 bg-neutral-400" />
-                <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-500">
+                <span className="h-px w-7 bg-neutral-400" />
+
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">
                   Po Get It
                 </p>
               </div>
 
-              <p className="mt-6 max-w-xs text-sm leading-6 text-neutral-400">
+              <p className="mt-4 max-w-xs text-[13px] leading-6 text-neutral-400 md:mt-6 md:text-sm">
                 A different way to spend the moments you usually overlook.
               </p>
             </div>
 
             <div>
-              <h3 className="max-w-4xl text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-neutral-900 md:text-5xl lg:text-6xl">
+              <h3 className="max-w-4xl text-[1.75rem] font-medium leading-[1.05] tracking-[-0.035em] text-neutral-900 md:text-5xl lg:text-6xl">
                 What if those forgotten
-                <span className="text-neutral-400"> 10–30 minutes</span> became
-                the moments you actually remember?
+                <span className="text-neutral-400">
+                  {" "}10–30 minutes
+                </span>{" "}
+                became the moments you actually remember?
               </h3>
 
-              <div className="mt-8 flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-900 text-sm text-white transition-transform duration-300 hover:rotate-45">
+              <div className="mt-5 flex items-center gap-3 md:mt-8 md:gap-4">
+
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-neutral-900 text-sm text-white transition-transform duration-300 hover:rotate-45 md:h-10 md:w-10">
                   ↗
                 </div>
 
-                <span className="text-sm text-neutral-500">
+                <span className="text-[12px] text-neutral-500 md:text-sm">
                   One small quest can change the moment.
                 </span>
+
               </div>
             </div>
+
           </div>
         </div>
+
       </div>
     </section>
   );
