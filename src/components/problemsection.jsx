@@ -103,14 +103,14 @@ export default function ProblemSection() {
           <div className="absolute inset-0 flex items-end justify-center px-4 pb-12 text-center md:px-6 md:pb-24">
             <div className="translate-y-4 md:translate-y-16">
 
-              <p className="mb-3 text-[9px] uppercase tracking-[0.25em] text-white/60 md:mb-5 md:text-[11px]">
+              <p className="mb-3 text-[9px] uppercase tracking-[0.25em] text-white  md:mb-5 md:text-[11px]">
                 It doesn't have to be this way
               </p>
 
               <h3 className="text-[2rem] font-medium leading-[0.95] tracking-[-0.04em] text-white md:text-6xl lg:text-7xl">
                 Your city has
                 <br />
-                <span className="text-white/55">
+                <span className="text-white/90">
                   more to offer.
                 </span>
               </h3>
