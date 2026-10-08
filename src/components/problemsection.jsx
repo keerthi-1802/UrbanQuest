@@ -88,7 +88,7 @@ export default function ProblemSection() {
             />
           </div>
 
-          <div className="absolute inset-0 bg-black/25" />
+          <div className="absolute inset-0 bg-black/35" />
 
           {/* Badge */}
           <div className="absolute left-4 top-4 md:left-8 md:top-8">

@@ -29,15 +29,14 @@ const Hero = () => {
 
           {/* Heading */}
           <h1 className="text-4xl font-bold leading-[0.9] tracking-tight md:text-5xl lg:text-7xl">
-            Reward living.
+            Less Scrolling. 
             <br />
-            Not scrolling.
+           More Living.
           </h1>
 
           {/* Description */}
           <p className="mt-3 max-w-md text-sm leading-5 text-white/80 md:mt-6 md:text-lg md:leading-8">
-            Explore hidden streets, complete photography quests, and uncover
-            the best walking routes around Coimbatore.
+            Turn the time you normally lose to scrolling into small real-world experiences built around what you enjoy."
           </p>
 
           {/* Button */}

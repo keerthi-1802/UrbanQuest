@@ -1,59 +1,101 @@
-"use client";
 
 import { useState } from "react";
-import Covai from "../assets/Covai.png"
+import Covai from "../assets/Covai.png";
 
 export default function AlphaLaunch() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [locality, setLocality] = useState("");
+  const [showLocalities, setShowLocalities] = useState(false);
 
-  const SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbzpH9lfkmT75blwhyRHfYU48O2xA2eo780hhYiDShZXJBjEjNHIf8KSHvTSmr7MCNPg/exec";
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const SCRIPT_URL ="https://script.google.com/macros/s/AKfycbznZNrPh8kAgElMjPsuiMDSp19TnHOIQ3CeLCFZ1Av18ON8ewkvXgVyMzmrdyv0LpJJ/exec"
+   
 
-    setLoading(true);
-    setError("");
 
-    const form = e.currentTarget;
+  const coimbatoreLocalities = [
+    "Ganapathy",
+    "Gandhipuram",
+    "RS Puram",
+    "Saibaba Colony",
+    "Peelamedu",
+    "Singanallur",
+    "Saravanampatti",
+    "Kalapatti",
+    "Race Course",
+    "Avinashi Road",
+    "Ukkadam",
+    "Kuniyamuthur",
+    "Podanur",
+    "Sundarapuram",
+    "Vadavalli",
+    "Thudiyalur",
+    "Kavundampalayam",
+    "Ramanathapuram",
+    "Trichy Road",
+    "Sivanandha Colony",
+    "Tatabad",
+    "Vilankurichi",
+    "Kovaipudur",
+    "Saibaba Colony",
+    "RS Puram",
+    "Hope College",
+    "Neelambur",
+    "Ondipudur",
+    "Puliakulam",
+  ];
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData(form);
+  console.log("1. FORM SUBMITTED");
 
-    const data = {
-      name: formData.get("name"),
-      age: formData.get("age"),
-      email: formData.get("email"),
-    };
+  setLoading(true);
+  setError("");
 
-    try {
-      await fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8",
-        },
-        body: JSON.stringify(data),
-      });
+  const form = e.currentTarget;
+  const formData = new FormData(form);
 
-      /*
-       * With no-cors, the browser doesn't let us read
-       * the response. If the request was sent successfully,
-       * show the success state.
-       */
-      setSubmitted(true);
-      form.reset();
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const interests = formData.getAll("interests");
+
+  const data = {
+    firstName: formData.get("firstName"),
+    contact: formData.get("contact"),
+    locality: formData.get("locality"),
+    ageRange: formData.get("ageRange"),
+    interests: interests.join(", "),
+    platform: formData.get("platform"),
   };
 
+  console.log("2. DATA:", data);
+  console.log("3. SCRIPT URL:", SCRIPT_URL);
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    });
+
+    console.log("4. FETCH COMPLETED");
+
+    setSubmitted(true);
+    form.reset();
+
+  } catch (err) {
+    console.error("FETCH ERROR:", err);
+    setError("Something went wrong. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
   return (
-    <section className="relative overflow-hidden bg-[#f5f5f0] px-6 py-20 sm:px-10 lg:px-16" >
+    <section
+      className="relative overflow-hidden bg-[#f5f5f0] px-6 py-20 sm:px-10 lg:px-16"
+    >
       <div className="mx-auto max-w-7xl">
 
         {/* SECTION HEADING */}
@@ -83,8 +125,7 @@ export default function AlphaLaunch() {
         </div>
 
         {/* MAIN CARD */}
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#111111] text-white ">
-
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#111111] text-white">
           <div className="relative grid lg:grid-cols-[1.05fr_0.95fr]">
 
             {/* LEFT — IMAGE */}
@@ -111,7 +152,6 @@ export default function AlphaLaunch() {
 
               {/* Image Content */}
               <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-10 lg:p-12">
-
                 <p className="mb-3 text-xs uppercase tracking-[0.18em] text-white/45">
                   First wave
                 </p>
@@ -132,14 +172,16 @@ export default function AlphaLaunch() {
             </div>
 
             {/* RIGHT — FORM */}
-            <div className="relative flex flex-col justify-center border-t border-white/10 bg-white/[0.035] p-8 sm:p-12 lg:border-l lg:border-t-0 lg:p-14"  id="alpha">
+            <div
+              className="relative flex flex-col justify-center border-t border-white/10 bg-white/[0.035] p-8 sm:p-12 lg:border-l lg:border-t-0 lg:p-14"
+              id="alpha"
+            >
 
               {!submitted ? (
                 <>
                   <div className="mb-9">
-
                     <p className="text-sm font-medium text-white">
-                      Get early access
+                      BECOME AN EARLY TESTER
                     </p>
 
                     <h3 className="mt-3 max-w-md text-3xl font-semibold leading-[1] tracking-[-0.04em] sm:text-4xl">
@@ -157,58 +199,163 @@ export default function AlphaLaunch() {
 
                   <form
                     onSubmit={handleSubmit}
-                    className="space-y-4"
+                    className="space-y-5"
                   >
 
-                    {/* NAME */}
+                    {/* FIRST NAME */}
                     <div>
                       <label className="mb-2 block text-[10px] font-medium uppercase tracking-[0.16em] text-white/30">
-                        Name
+                        First Name
                       </label>
 
                       <input
                         required
-                        name="name"
+                        name="firstName"
                         type="text"
-                        placeholder="Your name"
+                        placeholder="Your first name"
                         className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-[#d9ff55]/60"
                       />
+                    </div>
+
+                    {/* WHATSAPP OR EMAIL */}
+                    <div>
+                      <label className="mb-2 block text-[10px] font-medium uppercase tracking-[0.16em] text-white/30">
+                        WhatsApp Number or Email
+                      </label>
+
+                      <input
+                        required
+                        name="contact"
+                        type="text"
+                        placeholder="WhatsApp number or email"
+                        className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-[#d9ff55]/60"
+                      />
+                    </div>
+
+                    {/* CITY / LOCALITY */}
+                    <div className="relative">
+                      <label className="mb-2 block text-[10px] font-medium uppercase tracking-[0.16em] text-white/30">
+                        City / Locality
+                      </label>
+
+                      <input
+                        required
+                        name="locality"
+                        type="text"
+                        value={locality}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setLocality(value);
+
+                          // Only show suggestions after user starts typing
+                          setShowLocalities(value.trim().length >= 2);
+                        }}
+                        onFocus={() => {
+                          // Don't show anything if input is empty
+                          if (locality.trim().length >= 2) {
+                            setShowLocalities(true);
+                          }
+                        }}
+                        onBlur={() => {
+                          setTimeout(() => setShowLocalities(false), 150);
+                        }}
+                        placeholder="e.g. Ganapathy, Gandhipuram"
+                        autoComplete="off"
+                        className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-[#d9ff55]/60"
+                      />
+
+                      {/* AUTOCOMPLETE SUGGESTIONS */}
+                      {showLocalities && locality.trim().length >= 2 && (
+                        <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-xl border border-white/10 bg-[#1a1a1a] shadow-2xl">
+
+                          {coimbatoreLocalities
+                            .filter((item) =>
+                              item.toLowerCase().includes(locality.trim().toLowerCase())
+                            )
+                            .slice(0, 6)
+                            .map((item) => (
+                              <button
+                                key={item}
+                                type="button"
+                                onMouseDown={() => {
+                                  setLocality(item);
+                                  setShowLocalities(false);
+                                }}
+                                className="w-full px-4 py-3 text-left text-sm text-white/70 transition hover:bg-white/[0.08] hover:text-white"
+                              >
+                                {item}
+                              </button>
+                            ))}
+
+                        </div>
+                      )}
                     </div>
 
                     {/* AGE RANGE */}
                     <div>
                       <label className="mb-2 block text-[10px] font-medium uppercase tracking-[0.16em] text-white/30">
-                        Age Category
+                        Age Range
                       </label>
 
                       <div className="relative">
                         <select
                           required
-                          name="age"
+                          name="ageRange"
                           defaultValue=""
                           className="w-full appearance-none rounded-xl border border-white/10 bg-white/[0.06] px-4 py-4 pr-12 text-sm text-white outline-none transition duration-300 focus:border-[#d9ff55]/60 focus:bg-white/[0.08]"
                         >
-                          <option value="" disabled className="bg-[#111] text-white/60">
+                          <option
+                            value=""
+                            disabled
+                            className="bg-[#111] text-white/60"
+                          >
                             Select age range
                           </option>
-                          <option value="Below 18" className="bg-[#111] text-white">
+
+                          <option
+                            value="Below 18"
+                            className="bg-[#111] text-white"
+                          >
                             Below 18
                           </option>
-                          <option value="18–20" className="bg-[#111] text-white">
+
+                          <option
+                            value="18–20"
+                            className="bg-[#111] text-white"
+                          >
                             18–20
                           </option>
-                          <option value="20–35" className="bg-[#111] text-white">
-                            20–35
+
+                          <option
+                            value="21–30"
+                            className="bg-[#111] text-white"
+                          >
+                            21–30
                           </option>
-                          <option value="35–40" className="bg-[#111] text-white">
-                            35–40
+
+                          <option
+                            value="31–40"
+                            className="bg-[#111] text-white"
+                          >
+                            31–40
                           </option>
-                          <option value="40+" className="bg-[#111] text-white">
-                            40+
+
+                          <option
+                            value="41–50"
+                            className="bg-[#111] text-white"
+                          >
+                            41–50
+                          </option>
+
+                          <option
+                            value="51+"
+                            className="bg-[#111] text-white"
+                          >
+                            51+
                           </option>
                         </select>
 
-                        {/* Custom Chevron */}
+                        {/* Chevron */}
                         <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-white/40">
                           <svg
                             width="18"
@@ -226,19 +373,112 @@ export default function AlphaLaunch() {
                       </div>
                     </div>
 
-                    {/* EMAIL */}
+                    {/* INTERESTS */}
                     <div>
-                      <label className="mb-2 block text-[10px] font-medium uppercase tracking-[0.16em] text-white/30">
-                        Email
+                      <label className="mb-3 block text-[10px] font-medium uppercase tracking-[0.16em] text-white/30">
+                        Which interests appeal to you?
                       </label>
 
-                      <input
-                        required
-                        name="email"
-                        type="email"
-                        placeholder="you@example.com"
-                        className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-[#d9ff55]/60"
-                      />
+                      <div className="grid grid-cols-2 gap-3">
+
+                        {/* MOVE */}
+                        <label className="group flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 transition hover:border-[#d9ff55]/40 hover:bg-white/[0.08]">
+                          <input
+                            type="checkbox"
+                            name="interests"
+                            value="Move"
+                            className="h-4 w-4 accent-[#d9ff55]"
+                          />
+
+                          <span className="text-sm text-white/70 group-hover:text-white">
+                            Move
+                          </span>
+                        </label>
+
+                        {/* EXPLORE */}
+                        <label className="group flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 transition hover:border-[#d9ff55]/40 hover:bg-white/[0.08]">
+                          <input
+                            type="checkbox"
+                            name="interests"
+                            value="Explore"
+                            className="h-4 w-4 accent-[#d9ff55]"
+                          />
+
+                          <span className="text-sm text-white/70 group-hover:text-white">
+                            Explore
+                          </span>
+                        </label>
+
+                        {/* NOTICE */}
+                        <label className="group flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 transition hover:border-[#d9ff55]/40 hover:bg-white/[0.08]">
+                          <input
+                            type="checkbox"
+                            name="interests"
+                            value="Notice"
+                            className="h-4 w-4 accent-[#d9ff55]"
+                          />
+
+                          <span className="text-sm text-white/70 group-hover:text-white">
+                            Notice
+                          </span>
+                        </label>
+
+                        {/* RESET */}
+                        <label className="group flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 transition hover:border-[#d9ff55]/40 hover:bg-white/[0.08]">
+                          <input
+                            type="checkbox"
+                            name="interests"
+                            value="Reset"
+                            className="h-4 w-4 accent-[#d9ff55]"
+                          />
+
+                          <span className="text-sm text-white/70 group-hover:text-white">
+                            Reset
+                          </span>
+                        </label>
+
+                      </div>
+                    </div>
+
+                    {/* PLATFORM */}
+                    <div>
+                      <label className="mb-3 block text-[10px] font-medium uppercase tracking-[0.16em] text-white/30">
+                        Which device do you use?
+                      </label>
+
+                      <div className="grid grid-cols-2 gap-3">
+
+                        {/* ANDROID */}
+                        <label className="group flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 transition hover:border-[#d9ff55]/40 hover:bg-white/[0.08]">
+                          <input
+                            required
+                            type="radio"
+                            name="platform"
+                            value="Android"
+                            className="h-4 w-4 accent-[#d9ff55]"
+                          />
+
+                          <span className="text-sm text-white/70 group-hover:text-white">
+                            Android
+                          </span>
+                        </label>
+
+                        {/* IOS */}
+                        <label className="group flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 transition hover:border-[#d9ff55]/40 hover:bg-white/[0.08]">
+                          <input
+                            required
+                            type="radio"
+                            name="platform"
+                            value="iOS"
+                            className="h-4 w-4 accent-[#d9ff55]"
+                          />
+
+                          <span className="text-sm text-white/70 group-hover:text-white">
+                            iOS
+                          </span>
+                        </label>
+
+                      </div>
                     </div>
 
                     {/* ERROR */}
@@ -255,15 +495,14 @@ export default function AlphaLaunch() {
                       className="group mt-2 flex w-full items-center justify-between rounded-xl bg-[#d9ff55] px-5 py-4 text-sm font-semibold text-black transition hover:bg-[#e4ff82] disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       <span>
-                        {loading
-                          ? "Joining..."
-                          : "Join the alpha"}
+                        {loading ? "Joining..." : "Join the alpha"}
                       </span>
 
                       <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white transition-transform duration-300 group-hover:translate-x-1">
                         →
                       </span>
                     </button>
+
                   </form>
 
                   <p className="mt-5 text-center text-[10px] leading-5 text-white/20">
@@ -271,6 +510,7 @@ export default function AlphaLaunch() {
                   </p>
                 </>
               ) : (
+
                 /* SUCCESS STATE */
                 <div className="flex min-h-[400px] flex-col justify-center">
 
@@ -314,6 +554,7 @@ export default function AlphaLaunch() {
           </div>
 
         </div>
+
       </div>
     </section>
   );
