@@ -142,7 +142,7 @@ const handleSubmit = async (e) => {
               {/* Location */}
               <div className="absolute left-8 top-8 sm:left-10 sm:top-10">
                 <div className="flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-4 py-2 backdrop-blur-md">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#d9ff55]" />
+                 
 
                   <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-white/80">
                     Coimbatore Alpha
