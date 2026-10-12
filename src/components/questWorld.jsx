@@ -91,29 +91,7 @@ export default function QuestWorlds() {
               {world.description}
             </p>
           </div>
-
-          <div
-            className="
-              flex h-9 w-9 shrink-0 items-center justify-center
-              rounded-full bg-white text-black
-              transition-transform duration-300
-              group-hover:rotate-45
-              md:h-11 md:w-11
-            "
-          >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              className="md:h-[17px] md:w-[17px]"
-            >
-              <path d="M5 12h14" />
-              <path d="m13 6 6 6-6 6" />
-            </svg>
-          </div>
+     
         </div>
       </div>
     </article>

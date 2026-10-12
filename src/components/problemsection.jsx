@@ -118,16 +118,7 @@ export default function ProblemSection() {
             </div>
           </div>
 
-          {/* Bottom controls */}
-          <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between md:bottom-8 md:left-8 md:right-8">
-            <span className="text-[10px] text-white/60 md:text-xs">
-              01 — 03
-            </span>
-
-            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/30 bg-white/10 text-sm text-white backdrop-blur-md md:h-10 md:w-10">
-              ↓
-            </span>
-          </div>
+         
         </div>
 
         {/* Everyday Loop */}

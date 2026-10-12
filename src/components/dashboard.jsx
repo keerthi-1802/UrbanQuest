@@ -95,15 +95,7 @@ export default function LifeDashboard() {
                       0{index + 1}
                     </span>
 
-                    <span
-                      className={`flex h-6 w-6 items-center justify-center rounded-full border text-[10px] sm:h-8 sm:w-8 sm:text-xs ${
-                        index === 0
-                          ? "border-black/10 text-black/50"
-                          : "border-white/10 text-white/40"
-                      }`}
-                    >
-                      ↗
-                    </span>
+                  
                   </div>
 
                   <div>

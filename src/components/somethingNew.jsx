@@ -276,9 +276,7 @@ export default function DoSomethingNow() {
                       {quest.meta}
                     </span>
 
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full border border-black/10 text-sm transition-all duration-300 group-hover:bg-black group-hover:text-white md:h-9 md:w-9">
-                      ↗
-                    </span>
+        
                   </div>
                 </div>
               ))}
